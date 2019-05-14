@@ -5,7 +5,7 @@ library(dplyr)
 
 #' Get Eurovision final results from history
 #'
-#' @param year date in the form YYYY-MM-DD
+#' @param year in the form YYYY
 #' @return a dataframe of Eurovision results
 
 
