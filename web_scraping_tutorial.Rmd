@@ -148,15 +148,25 @@ Now we can use the function `xml_find_all()` to find all `<div>` nodes in the bo
 
 chart_items <- hot100 %>% 
   html_node("body") %>% 
-  xml_find_all("//div[contains(@class, 'chart-list-item  ')]")
+  xml_find_all("//div[contains(@class, 'chart-list-item')]")
 
 chart_items
 ```
 
-Now that looks like what we want. Nice!  You'll see that these `<div>` nodes have the attributes we need, and we can draw them down individually using the `xml_attr()` function:
+This looks like there's a lot of nodes that have our search string in them, but Node 2 looks interesting - let's take a closer look at its attributes using the function `xml_attrs()`.
+
+``` {r inspect}
+chart_items[2] %>% 
+  xml_attrs()
+
+```
+
+Now that looks like what we want. Nice!  So it looks like we are after `<div>` nodes with the class `'chart-list-item  '` (note the two spaces at the end.)  You'll see that these `<div>` nodes have the attributes we need, and we can draw them down individually using the `xml_attr()` function:
 
 ``` {r get data-title}
-title <- chart_items %>% 
+title <- hot100 %>% 
+  html_node("body") %>% 
+  xml_find_all("//div[contains(@class, 'chart-list-item  ')]") %>% 
   xml_attr("data-title")
 
 title %>%  head(10)
@@ -167,10 +177,14 @@ That's the Billboard Hot 100 Top 10!  Nice!  Now we can easy draw down the other
 
 ``` {r chart-df}
 
-rank <- chart_items %>% 
+rank <- hot100 %>% 
+  html_node("body") %>% 
+  xml_find_all("//div[contains(@class, 'chart-list-item  ')]") %>% 
   xml_attr('data-rank')
   
-artist <- chart_items %>% 
+artist <- hot100 %>% 
+  html_node("body") %>% 
+  xml_find_all("//div[contains(@class, 'chart-list-item  ')]") %>% 
   xml_attr('data-artist')
   
 chart_df <- data.frame(rank, artist, title)
