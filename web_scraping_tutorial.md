@@ -268,7 +268,7 @@ chart entry.
 
 <video width="320" height="240" controls>
 
-<source src="chromechart.mp4" type="video/mp4">
+<source src="https://github.com/keithmcnulty/scraping/blob/master/chromechart.mp4" type="video/mp4">
 
 Your browser does not support the video tag. </video>
 
@@ -493,10 +493,10 @@ library(wikifacts)
 wiki_didyouknow()
 ```
 
-    ## Did you know that after a 2002 study inaccurately claimed a measles and autism link due to improper qPCR data, scientists developed the MIQE guidelines to show the minimum level of reported data required for qPCR? (Courtesy of Wikipedia)
+    ## Did you know that NASA test pilots Charles Bassett and Elliot See (pictured) are among the fallen astronauts whose names are etched on a plaque on the Moon, placed by the crew of Apollo 15? (Courtesy of Wikipedia)
 
 ``` r
 wiki_onthisday()
 ```
 
-    ## Did you know that on this day in 1965 – Bob Dylan, who had previously been known for folk music, gave a controversial performance at the Newport Folk Festival playing songs with an electric guitar. (Courtesy of Wikipedia)
+    ## Did you know that on this day in 1139 – Prince Afonso Henriques led Portuguese troops to victory over the Almoravid Moors at the Battle of Ourique. (Courtesy of Wikipedia)
