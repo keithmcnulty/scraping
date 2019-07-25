@@ -3,12 +3,8 @@ title: "Scraping and Harvesting Web Data in R"
 author: "Keith McNulty"
 date: "25/07/2019"
 output:
-  html_document:
-    keep_md: true
-    code_folding: hide
-    toc: true
-    toc_float: true
-    number_sections: true
+  github_document:
+    toc: yes
 ---
 
 
