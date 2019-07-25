@@ -33,7 +33,7 @@ usually consists of two types of code.
   - `HTML` code, which focuses on the appearance and format of a web
     page.
   - `XML` code, which doesn’t *look* a lot different from `HTML` but
-    focusses more on managing data in a web page.
+    focuses more on managing data in a web page.
 
 ## 1.1 `HTML` code
 
@@ -85,7 +85,7 @@ best way to do this (in my opinion) is to use the Developer Tools that
 come with Google Chrome.
 
 When you are viewing a web page in chrome, simply used `Ctrl+Shift+C` in
-Windows or `Cmd+Options+C` on a Mac to open up the Elemenrs console
+Windows or `Cmd+Options+C` on a Mac to open up the Elements console
 where you can see all the code underlying the page. This can look really
 complex, but don’t worry. Here’s a photo of Google Chrome Developer open
 on the [Billboard Hot 100
@@ -154,8 +154,8 @@ library(dplyr)
     ##     intersect, setdiff, setequal, union
 
 `rvest` and `xml2` contain functions that allow us to read the code of a
-web page, break it into a nead structure, and work with the pipe command
-to efficienly find and extract specific pieces of information. Think of
+web page, break it into a neat structure, and work with the pipe command
+to efficiently find and extract specific pieces of information. Think of
 it a bit like performing keyhole surgery on a webpage. One you
 understand what functions are available and what they do, it makes basic
 web scraping very easy and can produce really powerful functionality.
@@ -167,7 +167,7 @@ We are going to use the example of mining the Billboard Hot 100 page at
 pretty bling. There are videos popping up, images all over the place.
 But the basic point of the page is to show the current Hot 100 chart.
 
-So let’s set ourself the task of just harvesting the basic info from
+So let’s set ourselves the task of just harvesting the basic info from
 this page: Position Number, Artist, Song Title for the Hot 100.
 
 ## 2.1 Getting started
@@ -314,7 +314,7 @@ chart_items
 
 Now that looks like what we want. Nice\! You’ll see that these `<div>`
 nodes have the attributes we need, and we can draw them down
-individially using the `xml_attr()` function:
+individually using the `xml_attr()` function:
 
 ``` r
 title <- chart_items %>% 
@@ -376,7 +376,7 @@ doing this.
 
 ## 3.1 Example: Writing a function to grab any Billboard chart from history
 
-If you take a look around the billboard site, you’l see that you can
+If you take a look around the billboard site, you’ll see that you can
 basically look up any chart at any date in history by simply inserting
 the chart name and date at the appropriate point in the URL. For
 example, to see the Billboard 200 on 21st July 1972 you would navigate
@@ -385,7 +385,7 @@ to <https://www.billboard.com/charts/billboard-200/1972-07-21>.
 Since this will always produce a webpage in exactly the same structure
 as the one we just scraped, we can now create quite a powerful function
 that accepts a chart name, date and set of ranks, and returns the
-entries for that chart on that date in thise ranks.
+entries for that chart on that date in those ranks.
 
 ``` r
 #' Get billboard chart entries from history
@@ -428,7 +428,7 @@ get_chart <- function(date = Sys.Date(), positions = c(1:10), type = "hot-100") 
 }
 ```
 
-Now let’s test out function by looking up the Top 10 singles from 20th
+Now let’s test our function by looking up the Top 10 singles from 20th
 January 1966:
 
 ``` r
@@ -487,10 +487,10 @@ library(wikifacts)
 wiki_didyouknow()
 ```
 
-    ## Did you know that the Melkite Christian Sarjun ibn Mansur, who headed the fiscal administration of Syria under the first five Umayyad caliphs, was the father of Saint John of Damascus? (Courtesy of Wikipedia)
+    ## Did you know that Samuel Adalberg, pioneer of Polish paremiology, committed suicide upon learning of the Germans' plans to construct the Warsaw Ghetto? (Courtesy of Wikipedia)
 
 ``` r
 wiki_onthisday()
 ```
 
-    ## Did you know that on this day in 1965 – Bob Dylan, who had previously been known for folk music, gave a controversial performance at the Newport Folk Festival playing songs with an electric guitar. (Courtesy of Wikipedia)
+    ## Did you know that on this day in 1261 – Alexios Strategopoulos led the Nicaean forces of Michael VIII Palaiologos to recapture Constantinople, re-establish the Byzantine Empire, and end the Latin Empire. (Courtesy of Wikipedia)
