@@ -3,25 +3,29 @@ Scraping and Harvesting Web Data in R
 Keith McNulty
 25/07/2019
 
-  - [Web Page Structure and Format](#web-page-structure-and-format)
-      - [`HTML` code](#html-code)
-      - [`XML` code](#xml-code)
-      - [Using Google Chrome Developer](#using-google-chrome-developer)
-      - [Embedded structure of web
+  - [1. Web Page Structure and Format](#web-page-structure-and-format)
+      - [1.1 `HTML` code](#html-code)
+      - [1.2 `XML` code](#xml-code)
+      - [1.3 Using Google Chrome
+        Developer](#using-google-chrome-developer)
+      - [1.4 Embedded structure of web
         code](#embedded-structure-of-web-code)
-      - [The `rvest` and `xml2` packages](#the-rvest-and-xml2-packages)
-  - [Basic harvesting: The Billboard Hot 100
+      - [1.5 The `rvest` and `xml2`
+        packages](#the-rvest-and-xml2-packages)
+  - [2. Basic harvesting: The Billboard Hot 100
     page](#basic-harvesting-the-billboard-hot-100-page)
-      - [Getting started](#getting-started)
-      - [Forensically targeting information of
+      - [2.1 Getting started](#getting-started)
+      - [2.2 Forensically targeting information of
         interest](#forensically-targeting-information-of-interest)
-  - [Making scraping easy by automating
+  - [3. Making scraping easy by automating
     tasks](#making-scraping-easy-by-automating-tasks)
-      - [Example: Writing a function to grab any Billboard chart from
+      - [3.1 Example: Writing a function to grab any Billboard chart
+        from
         history](#example-writing-a-function-to-grab-any-billboard-chart-from-history)
-      - [Example: Packaging `wikifacts`](#example-packaging-wikifacts)
+      - [3.2 Example: Packaging
+        `wikifacts`](#example-packaging-wikifacts)
 
-# Web Page Structure and Format
+# 1\. Web Page Structure and Format
 
 Any webpage you visit has a particular, expected general structure. It
 usually consists of two types of code.
@@ -31,7 +35,7 @@ usually consists of two types of code.
   - `XML` code, which doesn’t *look* a lot different from `HTML` but
     focusses more on managing data in a web page.
 
-## `HTML` code
+## 1.1 `HTML` code
 
 `HTML` code has an expected format and structure, to make it easy for
 people to develop web pages. Here is an example of a simple `HTML` page:
@@ -55,7 +59,7 @@ As you can see, the content is wrapped in tags like `<head></head>`,
 more predictable structure, it is often easier to work with it and mine
 it.
 
-## `XML` code
+## 1.2 `XML` code
 
 `XML` format and structure is less predictable. Although it looks very
 similar to `HTML`, users can create their own named tags. Here is an
@@ -73,7 +77,7 @@ The fact that tags are not pre-defined makes `XML` a little harder to
 mine and analyze. But it’s hard to get at some of the data on the web
 without using `XML`.
 
-## Using Google Chrome Developer
+## 1.3 Using Google Chrome Developer
 
 To mine web data, it’s important that you can see the underlying code
 and understand how it relates to what you are seeing on the page. The
@@ -93,7 +97,7 @@ page](https://www.billboard.com/charts/hot-100):
 
 </center>
 
-## Embedded structure of web code
+## 1.4 Embedded structure of web code
 
 If you play around with the code in the Developer you will see that it
 has an embedded structure.
@@ -112,7 +116,7 @@ sub-nodes in a list. By doing so, this gives us the opportunity to apply
 the tidyverse when mining web pages. The process of mining data from the
 web is called *scraping* or *harvesting*.
 
-## The `rvest` and `xml2` packages
+## 1.5 The `rvest` and `xml2` packages
 
 The `rvest` and `xml2` packages were designed to make it easier for
 people working in R to harvest web data. Since `xml2` is a required
@@ -156,7 +160,7 @@ it a bit like performing keyhole surgery on a webpage. One you
 understand what functions are available and what they do, it makes basic
 web scraping very easy and can produce really powerful functionality.
 
-# Basic harvesting: The Billboard Hot 100 page
+# 2\. Basic harvesting: The Billboard Hot 100 page
 
 We are going to use the example of mining the Billboard Hot 100 page at
 <https://www.billboard.com/charts/hot-100>. If you view this page, it’s
@@ -166,7 +170,7 @@ But the basic point of the page is to show the current Hot 100 chart.
 So let’s set ourself the task of just harvesting the basic info from
 this page: Position Number, Artist, Song Title for the Hot 100.
 
-## Getting started
+## 2.1 Getting started
 
 First we load our packages and then we use the function `read_html()` to
 capture the HTML code of the Billboard Hot 100 page.
@@ -250,7 +254,7 @@ body_nodes %>%
     ## [11] <div class="container">\n<p class="station-identification">\nBillbo ...
     ## [12] <div class="container">\n<div class="ad_desktop dfp-ad dfp-ad-adhes ...
 
-## Forensically targeting information of interest
+## 2.2 Forensically targeting information of interest
 
 So we could mess around with the functions above for a long time, but
 might find it hard to work out where exactly this chart data is. This is
@@ -260,19 +264,9 @@ in the code, and then we can use `rvest` to harvest out the data.
 If you run your mouse over the code in the Developer you will see that
 the elements of the page that the code revers to are highlighted in the
 browser. You can click to expand embedded nodes to get to more specific
-parts of the page. Watch this video to see how I progressively drill
-down the code to find the precise nodes that contain the details of each
-chart entry.
-
-<center>
-
-<video width="320" height="240" controls>
-
-<source src="https://github.com/keithmcnulty/scraping/blob/master/chromechart.mp4" type="video/mp4">
-
-Your browser does not support the video tag. </video>
-
-</center>
+parts of the page. You can watch the video I added to this repo to see
+how I progressively drill down the code to find the precise nodes that
+contain the details of each chart entry.
 
 What we see is that each chart entry appears to be in a `<div>` tag with
 the class name `chart-list-item` and the div tag seems to have
@@ -371,7 +365,7 @@ knitr::kable(
 | 9    | Post Malone & Swae Lee              | Sunflower (Spider-Man: Into The Spider-Verse) |
 | 10   | Chris Brown Featuring Drake         | No Guidance                                   |
 
-# Making scraping easy by automating tasks
+# 3\. Making scraping easy by automating tasks
 
 Generally we don’t just scrape a single webpage for fun. We are usually
 scraping because there is information that we need on a large scale or
@@ -380,7 +374,7 @@ this information, you’ll need to set things up in a way that it is easy
 to obtain it in the future. Writing functions is often a good way of
 doing this.
 
-## Example: Writing a function to grab any Billboard chart from history
+## 3.1 Example: Writing a function to grab any Billboard chart from history
 
 If you take a look around the billboard site, you’l see that you can
 basically look up any chart at any date in history by simply inserting
@@ -456,7 +450,7 @@ knitr::kable(test1)
 | 9    | The Rolling Stones          | As Tears Go By                           |
 | 10   | The Lovin’ Spoonful         | You Didn’t Have To Be So Nice            |
 
-## Example: Packaging `wikifacts`
+## 3.2 Example: Packaging `wikifacts`
 
 Recently I thought it might be useful to have a package that generated
 random facts for people. This could be helpful for scripts or apps that
@@ -493,10 +487,10 @@ library(wikifacts)
 wiki_didyouknow()
 ```
 
-    ## Did you know that NASA test pilots Charles Bassett and Elliot See (pictured) are among the fallen astronauts whose names are etched on a plaque on the Moon, placed by the crew of Apollo 15? (Courtesy of Wikipedia)
+    ## Did you know that the Melkite Christian Sarjun ibn Mansur, who headed the fiscal administration of Syria under the first five Umayyad caliphs, was the father of Saint John of Damascus? (Courtesy of Wikipedia)
 
 ``` r
 wiki_onthisday()
 ```
 
-    ## Did you know that on this day in 1139 – Prince Afonso Henriques led Portuguese troops to victory over the Almoravid Moors at the Battle of Ourique. (Courtesy of Wikipedia)
+    ## Did you know that on this day in 1965 – Bob Dylan, who had previously been known for folk music, gave a controversial performance at the Newport Folk Festival playing songs with an electric guitar. (Courtesy of Wikipedia)
