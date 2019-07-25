@@ -67,7 +67,7 @@ example:
 
     <note>
       <to>Keith</to>
-      <from>Kevin Sneader</from>
+      <from>Steve</from>
       <heading>Kudos</heading>
       <body>Awesome work, dude!</body>
     </note>
@@ -461,23 +461,23 @@ Now let’s test our function by looking up the Top 10 singles from 20th
 January 1966:
 
 ``` r
-test1 <- get_chart(date = "1966-01-20", positions = 1:10, type = "hot-100")
+test1 <- get_chart(date = "1975-01-20", positions = 1:10, type = "hot-100")
 
 knitr::kable(test1)
 ```
 
-| rank | artist                      | title                                    |
-| :--- | :-------------------------- | :--------------------------------------- |
-| 1    | Simon & Garfunkel           | The Sound Of Silence                     |
-| 2    | The Beatles                 | We Can Work It Out                       |
-| 3    | Gary Lewis And The Playboys | She’s Just My Style                      |
-| 4    | The Vogues                  | Five O’Clock World                       |
-| 5    | The Beatles                 | Day Tripper                              |
-| 6    | The T-Bones                 | No Matter What Shape (Your Stomach’s In) |
-| 7    | Mike Douglas                | The Men In My Little Girl’s Life         |
-| 8    | Herman’s Hermits            | A Must To Avoid                          |
-| 9    | The Rolling Stones          | As Tears Go By                           |
-| 10   | The Lovin’ Spoonful         | You Didn’t Have To Be So Nice            |
+| rank | artist                     | title                        |
+| :--- | :------------------------- | :--------------------------- |
+| 1    | Carpenters                 | Please Mr. Postman           |
+| 2    | Neil Sedaka                | Laughter In The Rain         |
+| 3    | Barry Manilow              | Mandy                        |
+| 4    | Ohio Players               | Fire                         |
+| 5    | Stevie Wonder              | Boogie On Reggae Woman       |
+| 6    | Linda Ronstadt             | You’re No Good               |
+| 7    | Paul Anka with Odia Coates | One Man Woman/One Woman Man  |
+| 8    | Donny & Marie Osmond       | Morning Side Of The Mountain |
+| 9    | Gloria Gaynor              | Never Can Say Goodbye        |
+| 10   | AWB                        | Pick Up The Pieces           |
 
 ## 3.2 Example: Packaging `wikifacts`
 
@@ -499,8 +499,8 @@ reliably scraped. So I used them to create three functions:
 A fourth function `wiki_randomfact()` executes one of the above three
 functions at random.
 
-I packaged this into a package called `wikifacts()` which can be
-installed from github. Here’s some examples of the functions at work:
+I packaged this into a package called `wikifacts` which can be installed
+from github. Here’s some examples of the functions at work:
 
 ``` r
 library(devtools)
@@ -516,10 +516,10 @@ library(wikifacts)
 wiki_didyouknow()
 ```
 
-    ## Did you know that while Caltech's historic South Houses were renovated, its North Houses were recommended for demolition for lack of architectural appeal? (Courtesy of Wikipedia)
+    ## Did you know that the Melkite Christian Sarjun ibn Mansur, who headed the fiscal administration of Syria under the first five Umayyad caliphs, was the father of Saint John of Damascus? (Courtesy of Wikipedia)
 
 ``` r
 wiki_onthisday()
 ```
 
-    ## Did you know that on this day in 1969 – Vietnam War: President Richard Nixon announced that the United States would not "undertake all the defense of the free nations of the world", beginning the Vietnamization of the war. (Courtesy of Wikipedia)
+    ## Did you know that on this day in 2007 – Pratibha Patil (pictured) was sworn in as the first female president of India. (Courtesy of Wikipedia)

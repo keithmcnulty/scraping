@@ -48,7 +48,7 @@ As you can see, the content is wrapped in tags like `<head></head>`, `<body></bo
 ```
 <note>
   <to>Keith</to>
-  <from>Kevin Sneader</from>
+  <from>Steve</from>
   <heading>Kudos</heading>
   <body>Awesome work, dude!</body>
 </note>
@@ -254,7 +254,7 @@ Now let's test our function by looking up the Top 10 singles from 20th January 1
 
 ``` {r top tens}
 
-test1 <- get_chart(date = "1966-01-20", positions = 1:10, type = "hot-100")
+test1 <- get_chart(date = "1975-01-20", positions = 1:10, type = "hot-100")
 
 knitr::kable(test1)
 
@@ -272,7 +272,7 @@ The Wikipedia Main Page has three predictable sections which can be reliably scr
 
 A fourth function `wiki_randomfact()` executes one of the above three functions at random.  
 
-I packaged this into a package called `wikifacts()` which can be installed from github.  Here's some examples of the functions at work:
+I packaged this into a package called `wikifacts` which can be installed from github.  Here's some examples of the functions at work:
 
 ``` {r wikifacts}
 
