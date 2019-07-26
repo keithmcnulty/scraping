@@ -478,6 +478,40 @@ knitr::kable(test1)
 | 9    | Gloria Gaynor              | Never Can Say Goodbye        |
 | 10   | AWB                        | Pick Up The Pieces           |
 
+Similarly, we can create a function `get_eurovision()` to scrape the
+results of any [Eurovision Song
+Contest](https://en.wikipedia.org/wiki/Eurovision_Song_Contest) since
+1957. I will source this function from inside this repo and then grab
+the 1974 contest results:
+
+``` r
+source("eurovision_scraping.R")
+
+eurovision_1974 <- get_eurovision(1974)
+
+knitr::kable(eurovision_1974)
+```
+
+| Country        | Artist                                 | Song                                                               | Language\[9\] | Place | Points |
+| :------------- | :------------------------------------- | :----------------------------------------------------------------- | :------------ | ----: | -----: |
+| Sweden         | ABBA                                   | “Waterloo”                                                         | English       |     1 |     24 |
+| Italy          | Gigliola Cinquetti                     | “Sì”                                                               | Italian       |     2 |     18 |
+| Netherlands    | Mouth & MacNeal                        | “I See a Star”                                                     | English       |     3 |     15 |
+| United Kingdom | Olivia Newton-John                     | “Long Live Love”                                                   | English       |     4 |     14 |
+| Luxembourg     | Ireen Sheer                            | “Bye Bye I Love You”                                               | Frencha       |     4 |     14 |
+| Monaco         | Romuald                                | “Celui qui reste et celui qui s’en va”                             | French        |     4 |     14 |
+| Israel         | Kaveret                                | “Natati La Khayay” (נתתי לה חיי)                                   | Hebrew        |     7 |     11 |
+| Ireland        | Tina Reynolds                          | “Cross Your Heart”                                                 | English       |     7 |     11 |
+| Spain          | Peret                                  | “Canta y sé feliz”                                                 | Spanish       |     9 |     10 |
+| Belgium        | Jacques Hustin                         | “Fleur de liberté”                                                 | French        |     9 |     10 |
+| Greece         | Marinella                              | “Krasi, thalassa ke t’ agori mou”(Κρασί, θάλασσα και τ’ αγόρι μου) | Greek         |    11 |      7 |
+| Yugoslavia     | Korni Grupa                            | “Generacija ’42” (Генерација ’42)                                  | Serbian       |    12 |      6 |
+| Finland        | Carita                                 | “Keep Me Warm”                                                     | English       |    13 |      4 |
+| Norway         | Anne-Karine Strøm feat. Bendik Singers | “The First Day of Love”                                            | English       |    14 |      3 |
+| Germany        | Cindy & Bert                           | “Die Sommermelodie”                                                | German        |    14 |      3 |
+| Switzerland    | Piera Martell                          | “Mein Ruf nach dir”                                                | German        |    14 |      3 |
+| Portugal       | Paulo de Carvalho                      | “E depois do adeus”                                                | Portuguese    |    14 |      3 |
+
 ## 3.2 Example: Packaging `wikifacts`
 
 Recently I thought it might be useful to have a package that generated
@@ -515,10 +549,10 @@ library(wikifacts)
 wiki_didyouknow()
 ```
 
-    ## Did you know that Joe Biden prefers the Chevrolet Corvette, but Joe Biden prefers the Pontiac Trans Am? (Courtesy of Wikipedia)
+    ## Did you know that the Guinean striped mojarra is one of the fish caught in the less polluted part of the Ébrié Lagoon (pictured)? (Courtesy of Wikipedia)
 
 ``` r
 wiki_onthisday()
 ```
 
-    ## Did you know that on this day in 1953 – In Short Creek, Arizona, police conducted a mass arrest of approximately 400 Mormon fundamentalists for polygamy. (Courtesy of Wikipedia)
+    ## Did you know that on this day in 1882 – Boer mercenaries declared their independence from the Transvaal Republic and established the Republic of Stellaland. (Courtesy of Wikipedia)
