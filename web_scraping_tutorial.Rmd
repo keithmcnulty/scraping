@@ -259,6 +259,8 @@ knitr::kable(test1)
 
 ```
 
+## 3.2 Writing a function to grab any set of Eurovision Song Contest results
+
 Similarly, we can create a function `get_eurovision()` to scrape the results of any [Eurovision Song Contest](https://en.wikipedia.org/wiki/Eurovision_Song_Contest) since 1957.  I will source this function from inside this repo and then grab the 1974 contest results:
 
 ``` {r eurovision}
@@ -271,7 +273,7 @@ knitr::kable(eurovision_1974)
 
 ```
 
-## 3.2 Example: Packaging `wikifacts`
+## 3.3 Example: Packaging `wikifacts`
 
 Recently I thought it might be useful to have a package that generated random facts for people.  This could be helpful for scripts or apps that take a long time to execute, where you could occasionally display random facts to keep people interested.
 

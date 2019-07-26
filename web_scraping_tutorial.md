@@ -21,7 +21,10 @@ Created by Keith McNulty on 26th July 2019
       - [3.1 Example: Writing a function to grab any Billboard chart
         from
         history](#example-writing-a-function-to-grab-any-billboard-chart-from-history)
-      - [3.2 Example: Packaging
+      - [3.2 Writing a function to grab any set of Eurovision Song
+        Contest
+        results](#writing-a-function-to-grab-any-set-of-eurovision-song-contest-results)
+      - [3.3 Example: Packaging
         `wikifacts`](#example-packaging-wikifacts)
 
 # 1\. Web Page Structure and Format
@@ -478,6 +481,8 @@ knitr::kable(test1)
 | 9    | Gloria Gaynor              | Never Can Say Goodbye        |
 | 10   | AWB                        | Pick Up The Pieces           |
 
+## 3.2 Writing a function to grab any set of Eurovision Song Contest results
+
 Similarly, we can create a function `get_eurovision()` to scrape the
 results of any [Eurovision Song
 Contest](https://en.wikipedia.org/wiki/Eurovision_Song_Contest) since
@@ -512,7 +517,7 @@ knitr::kable(eurovision_1974)
 | Switzerland    | Piera Martell                          | “Mein Ruf nach dir”                                                | German        |    14 |      3 |
 | Portugal       | Paulo de Carvalho                      | “E depois do adeus”                                                | Portuguese    |    14 |      3 |
 
-## 3.2 Example: Packaging `wikifacts`
+## 3.3 Example: Packaging `wikifacts`
 
 Recently I thought it might be useful to have a package that generated
 random facts for people. This could be helpful for scripts or apps that
@@ -549,10 +554,10 @@ library(wikifacts)
 wiki_didyouknow()
 ```
 
-    ## Did you know that the Guinean striped mojarra is one of the fish caught in the less polluted part of the Ébrié Lagoon (pictured)? (Courtesy of Wikipedia)
+    ## Did you know that the Granadan princess Fatima bint al-Ahmar was described as "surpassing the women of her time like the Night of Power surpasses all the other nights" by the historian Ibn al-Khatib? (Courtesy of Wikipedia)
 
 ``` r
 wiki_onthisday()
 ```
 
-    ## Did you know that on this day in 1882 – Boer mercenaries declared their independence from the Transvaal Republic and established the Republic of Stellaland. (Courtesy of Wikipedia)
+    ## Did you know that on this day in 2009 – The militant Islamist group Boko Haram launched an attack on a Nigeria Police Force station, sparking violence across several states in northeastern Nigeria, leaving more than 1,000 people dead. (Courtesy of Wikipedia)
