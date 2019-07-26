@@ -75,7 +75,7 @@ This is important because it means we can mine elements of a web page and treat 
 
 ## 1.5 The `rvest` and `xml2` packages
 
-The `rvest` and `xml2` packages were designed to make it easier for people working in R to harvest web data.  Since `xml2` is a required package for `rvest` and the idea is that both packages work together, you only need to install `rvest`.  First, lets ensure the packages we need are installed and loaded:
+The `rvest` and `xml2` packages were designed to make it easier for people working in R to harvest web data.  Since `xml2` is a required package for `rvest` and the idea is that both packages work together, you only need to install `rvest`.  First, let's ensure the packages we need are installed and loaded:
 
 ``` {r install}
 
@@ -92,7 +92,7 @@ library(dplyr)
 
 ```
 
-`rvest` and `xml2` contain functions that allow us to read the code of a web page, break it into a neat structure, and work with the pipe command to efficiently find and extract specific pieces of information.  Think of it a bit like performing keyhole surgery on a webpage.  One you understand what functions are available and what they do, it makes basic web scraping very easy and can produce really powerful functionality.
+`rvest` and `xml2` contain functions that allow us to read the code of a web page, break it into a neat structure, and work with the pipe command to efficiently find and extract specific pieces of information.  Think of it a bit like performing keyhole surgery on a webpage.  Once you understand what functions are available and what they do, it makes basic web scraping very easy and can produce really powerful functionality.
 
 # 2. Basic harvesting:  The Billboard Hot 100 page
 

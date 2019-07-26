@@ -120,7 +120,7 @@ web is called *scraping* or *harvesting*.
 The `rvest` and `xml2` packages were designed to make it easier for
 people working in R to harvest web data. Since `xml2` is a required
 package for `rvest` and the idea is that both packages work together,
-you only need to install `rvest`. First, lets ensure the packages we
+you only need to install `rvest`. First, let’s ensure the packages we
 need are installed and loaded:
 
 ``` r
@@ -155,7 +155,7 @@ library(dplyr)
 `rvest` and `xml2` contain functions that allow us to read the code of a
 web page, break it into a neat structure, and work with the pipe command
 to efficiently find and extract specific pieces of information. Think of
-it a bit like performing keyhole surgery on a webpage. One you
+it a bit like performing keyhole surgery on a webpage. Once you
 understand what functions are available and what they do, it makes basic
 web scraping very easy and can produce really powerful functionality.
 
@@ -515,10 +515,10 @@ library(wikifacts)
 wiki_didyouknow()
 ```
 
-    ## Did you know that the verses of the inscription on the funerary Stele of Arniadas are said to be "extraordinarily similar" to the words of Hector in the Iliad? (Courtesy of Wikipedia)
+    ## Did you know that Joe Biden prefers the Chevrolet Corvette, but Joe Biden prefers the Pontiac Trans Am? (Courtesy of Wikipedia)
 
 ``` r
 wiki_onthisday()
 ```
 
-    ## Did you know that on this day in 1759 – French and Indian War: Rather than defend Fort Carillon near present-day Ticonderoga, New York, from an approaching 11,000-man British force, French Brigadier General François-Charles de Bourlamaque withdrew his troops and attempted to blow up the fort. (Courtesy of Wikipedia)
+    ## Did you know that on this day in 1953 – In Short Creek, Arizona, police conducted a mass arrest of approximately 400 Mormon fundamentalists for polygamy. (Courtesy of Wikipedia)
