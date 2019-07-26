@@ -18,8 +18,9 @@ Created by Keith McNulty on 26th July 2019
     tasks](#making-scraping-easy-by-automating-tasks)
       - [Example: Writing a function to grab any Billboard chart from
         history](#example-writing-a-function-to-grab-any-billboard-chart-from-history)
-      - [Writing a function to grab any set of Eurovision Song Contest
-        results](#writing-a-function-to-grab-any-set-of-eurovision-song-contest-results)
+      - [Example: Writing a function to grab any set of Eurovision Song
+        Contest
+        results](#example-writing-a-function-to-grab-any-set-of-eurovision-song-contest-results)
       - [Example: Packaging `wikifacts`](#example-packaging-wikifacts)
 
 # Web Page Structure and Format
@@ -476,7 +477,7 @@ knitr::kable(test1)
 | 9    | Gloria Gaynor              | Never Can Say Goodbye        |
 | 10   | AWB                        | Pick Up The Pieces           |
 
-## Writing a function to grab any set of Eurovision Song Contest results
+## Example: Writing a function to grab any set of Eurovision Song Contest results
 
 Similarly, we can create a function `get_eurovision()` to scrape the
 results of any [Eurovision Song
@@ -549,10 +550,11 @@ library(wikifacts)
 wiki_didyouknow()
 ```
 
-    ## Did you know that in 2004 the British Rail Class 458 trains were so unreliable that their operator considered replacing them all, but by 2012 they had become the most reliable fleet in Britain? (Courtesy of Wikipedia)
+    ## Did you know that Joe Biden prefers the Chevrolet Corvette, but Joe Biden prefers the Pontiac Trans Am? (Courtesy of Wikipedia)
 
 ``` r
 wiki_onthisday()
 ```
 
-    ## Did you know that on this day in 1953 – In Short Creek, Arizona, police conducted a mass arrest of approximately 400 Mormon fundamentalists for polygamy. (Courtesy of Wikipedia)
+    ## Did you know that on this day in 2009 – The militant Islamist group Boko Haram launched an attack on a Nigeria Police Force station, sparking violence across several states in northeastern Nigeria, leaving more than 1,000 people dead. (Courtesy of Wikipedia)
+

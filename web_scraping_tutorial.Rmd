@@ -259,7 +259,7 @@ knitr::kable(test1)
 
 ```
 
-## Writing a function to grab any set of Eurovision Song Contest results
+## Example: Writing a function to grab any set of Eurovision Song Contest results
 
 Similarly, we can create a function `get_eurovision()` to scrape the results of any [Eurovision Song Contest](https://en.wikipedia.org/wiki/Eurovision_Song_Contest) since 1957.  I will source this function from inside this repo and then grab the 1974 contest results:
 
