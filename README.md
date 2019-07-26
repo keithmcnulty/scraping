@@ -420,7 +420,7 @@ entries for that chart on that date in those ranks.
 #' @param positions numeric vector
 #' @param type character string of chart type (as per billboard.com URLs)
 #' @return a dataframe of rank, artist, title
-#' @example get_chart(date = "1972-11-02", positions = c(1:100), type = "billboard-200")
+#' @examples get_chart(date = "1972-11-02", positions = c(1:100), type = "billboard-200")
 
 
 get_chart <- function(date = Sys.Date(), positions = c(1:10), type = "hot-100") {
@@ -549,10 +549,10 @@ library(wikifacts)
 wiki_didyouknow()
 ```
 
-    ## Did you know that the Granadan princess Fatima bint al-Ahmar was described as "surpassing the women of her time like the Night of Power surpasses all the other nights" by the historian Ibn al-Khatib? (Courtesy of Wikipedia)
+    ## Did you know that in 2004 the British Rail Class 458 trains were so unreliable that their operator considered replacing them all, but by 2012 they had become the most reliable fleet in Britain? (Courtesy of Wikipedia)
 
 ``` r
 wiki_onthisday()
 ```
 
-    ## Did you know that on this day in 1759 – French and Indian War: Rather than defend Fort Carillon near present-day Ticonderoga, New York, from an approaching 11,000-man British force, French Brigadier General François-Charles de Bourlamaque withdrew his troops and attempted to blow up the fort. (Courtesy of Wikipedia)
+    ## Did you know that on this day in 1953 – In Short Creek, Arizona, police conducted a mass arrest of approximately 400 Mormon fundamentalists for polygamy. (Courtesy of Wikipedia)

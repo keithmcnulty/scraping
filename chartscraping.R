@@ -10,7 +10,7 @@ library(dplyr)
 #' @param positions numeric vector
 #' @param type character string of chart type (as per billboard.com URLs)
 #' @return a dataframe of rank, artist, title
-#' @example get_chart(date = "1972-11-02", positions = c(1:100), type = "billboard-200")
+#' @examples get_chart(date = "1972-11-02", positions = c(1:100), type = "billboard-200")
 
 
 get_chart <- function(date = Sys.Date(), positions = c(1:10), type = "hot-100") {

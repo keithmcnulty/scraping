@@ -5,8 +5,9 @@ library(dplyr)
 
 #' Get Eurovision final results from history
 #'
-#' @param year in the form YYYY
-#' @return a dataframe of Eurovision results
+#' @param year A numeric in the form YYYY
+#' @return A dataframe of Eurovision results
+#' @examples get_eurovision(1974)
 
 
 get_eurovision <- function(year) {
