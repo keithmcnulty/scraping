@@ -1,7 +1,6 @@
 Scraping and Harvesting Web Data in R
 ================
-Keith McNulty
-25/07/2019
+Created by Keith McNulty on 26th July 2019
 
   - [1. Web Page Structure and Format](#web-page-structure-and-format)
       - [1.1 `HTML` code](#html-code)
@@ -84,9 +83,9 @@ and understand how it relates to what you are seeing on the page. The
 best way to do this (in my opinion) is to use the Developer Tools that
 come with Google Chrome.
 
-When you are viewing a web page in chrome, simply used `Ctrl+Shift+C` in
-Windows or `Cmd+Options+C` on a Mac to open up the Elements console
-where you can see all the code underlying the page. This can look really
+When you are viewing a web page in Chrome, simply used `Ctrl+Shift+C` in
+Windows or `Cmd+Option+C` on a Mac to open up the Elements console where
+you can see all the code underlying the page. This can look really
 complex, but don’t worry. Here’s a photo of Google Chrome Developer open
 on the [Billboard Hot 100
 page](https://www.billboard.com/charts/hot-100):
@@ -198,7 +197,7 @@ str(hot100)
 
 The function has captured the entire content of the page in the form of
 a special list-type document with two nodes `<head>` and `<body>`.
-Almost always we are interested in the body of a web pages. You can
+Almost always we are interested in the body of a web page. You can
 select a node using `html_node()` and then see its *child nodes* using
 `html_children()`.
 
@@ -233,7 +232,7 @@ body_nodes
     ## [20] <script type="text/javascript">\n    PGM.createScriptTag("//connect ...
 
 If we want, we can go one level deeper, to see the nodes inside the
-nodes, we can just continue to pipe deeper into the code:
+nodes. In this way, we can just continue to pipe deeper into the code:
 
 ``` r
 body_nodes %>% 
@@ -257,12 +256,12 @@ body_nodes %>%
 ## 2.2 Forensically targeting information of interest
 
 So we could mess around with the functions above for a long time, but
-might find it hard to work out where exactly this chart data is. This is
-where we will use Chrome Developer to tell us where we can find the data
-in the code, and then we can use `rvest` to harvest out the data.
+might find it hard to work out where exactly this chart data is. We can
+use Chrome Developer to tell us where we can find the data in the code,
+and then we can use `rvest` to harvest out the data.
 
 If you run your mouse over the code in the Developer you will see that
-the elements of the page that the code revers to are highlighted in the
+the elements of the page that the code refers to are highlighted in the
 browser. You can click to expand embedded nodes to get to more specific
 parts of the page. You can watch the video I added to this repo to see
 how I progressively drill down the code to find the precise nodes that
@@ -458,7 +457,7 @@ get_chart <- function(date = Sys.Date(), positions = c(1:10), type = "hot-100") 
 ```
 
 Now let’s test our function by looking up the Top 10 singles from 20th
-January 1966:
+January 1975:
 
 ``` r
 test1 <- get_chart(date = "1975-01-20", positions = 1:10, type = "hot-100")
@@ -484,7 +483,7 @@ knitr::kable(test1)
 Recently I thought it might be useful to have a package that generated
 random facts for people. This could be helpful for scripts or apps that
 take a long time to execute, where you could occasionally display random
-facts to keep people entertained.
+facts to keep people interested.
 
 The Wikipedia Main Page has three predictable sections which can be
 reliably scraped. So I used them to create three functions:
@@ -516,10 +515,10 @@ library(wikifacts)
 wiki_didyouknow()
 ```
 
-    ## Did you know that the Melkite Christian Sarjun ibn Mansur, who headed the fiscal administration of Syria under the first five Umayyad caliphs, was the father of Saint John of Damascus? (Courtesy of Wikipedia)
+    ## Did you know that the verses of the inscription on the funerary Stele of Arniadas are said to be "extraordinarily similar" to the words of Hector in the Iliad? (Courtesy of Wikipedia)
 
 ``` r
 wiki_onthisday()
 ```
 
-    ## Did you know that on this day in 2007 – Pratibha Patil (pictured) was sworn in as the first female president of India. (Courtesy of Wikipedia)
+    ## Did you know that on this day in 1759 – French and Indian War: Rather than defend Fort Carillon near present-day Ticonderoga, New York, from an approaching 11,000-man British force, French Brigadier General François-Charles de Bourlamaque withdrew his troops and attempted to blow up the fort. (Courtesy of Wikipedia)

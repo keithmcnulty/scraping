@@ -1,7 +1,6 @@
 ---
 title: "Scraping and Harvesting Web Data in R"
-author: "Keith McNulty"
-date: "25/07/2019"
+date: "Created by Keith McNulty on 26th July 2019"
 output:
   github_document:
     toc: yes
@@ -59,7 +58,7 @@ Tags like `<to></to>` and `<from></from>` are completely made up by me.  The fac
 
 To mine web data, it's important that you can see the underlying code and understand how it relates to what you are seeing on the page.  The best way to do this (in my opinion) is to use the Developer Tools that come with Google Chrome.  
 
-When you are viewing a web page in chrome, simply used `Ctrl+Shift+C` in Windows or `Cmd+Options+C` on a Mac to open up the Elements console where you can see all the code underlying the page.  This can look really complex, but don't worry.  Here's a photo of Google Chrome Developer open on the [Billboard Hot 100 page](https://www.billboard.com/charts/hot-100):
+When you are viewing a web page in Chrome, simply used `Ctrl+Shift+C` in Windows or `Cmd+Option+C` on a Mac to open up the Elements console where you can see all the code underlying the page.  This can look really complex, but don't worry.  Here's a photo of Google Chrome Developer open on the [Billboard Hot 100 page](https://www.billboard.com/charts/hot-100):
 
 <center><img src="chrome-dev-screenshot.png" alt="Google Chrome Developer"></center>
 
@@ -113,7 +112,7 @@ hot100
 str(hot100)
 ```
 
-The function has captured the entire content of the page in the form of a special list-type document with two nodes `<head>` and `<body>`.  Almost always we are interested in the body of a web pages.  You can select a node using `html_node()` and then see its *child nodes* using `html_children()`.  
+The function has captured the entire content of the page in the form of a special list-type document with two nodes `<head>` and `<body>`.  Almost always we are interested in the body of a web page.  You can select a node using `html_node()` and then see its *child nodes* using `html_children()`.  
 
 ``` {r next}
 body_nodes <- hot100 %>% 
@@ -124,7 +123,7 @@ body_nodes
 
 ```
 
-If we want, we can go one level deeper, to see the nodes inside the nodes, we can just continue to pipe deeper into the code:
+If we want, we can go one level deeper, to see the nodes inside the nodes.  In this way, we can just continue to pipe deeper into the code:
 
 ``` {r main}
 body_nodes %>% 
@@ -134,9 +133,9 @@ body_nodes %>%
 
 ## 2.2 Forensically targeting information of interest
 
-So we could mess around with the functions above for a long time, but might find it hard to work out where exactly this chart data is.  This is where we will use Chrome Developer to tell us where we can find the data in the code, and then we can use `rvest` to harvest out the data.
+So we could mess around with the functions above for a long time, but might find it hard to work out where exactly this chart data is.  We can use Chrome Developer to tell us where we can find the data in the code, and then we can use `rvest` to harvest out the data.
 
-If you run your mouse over the code in the Developer you will see that the elements of the page that the code revers to are highlighted in the browser.  You can click to expand embedded nodes to get to more specific parts of the page.  You can watch the video I added to this repo to see how I progressively drill down the code to find the precise nodes that contain the details of each chart entry.
+If you run your mouse over the code in the Developer you will see that the elements of the page that the code refers to are highlighted in the browser.  You can click to expand embedded nodes to get to more specific parts of the page.  You can watch the video I added to this repo to see how I progressively drill down the code to find the precise nodes that contain the details of each chart entry.
 
 What we see is that each chart entry appears to be in a `<div>` tag with the class name `chart-list-item` and the div tag seems to have attributes that we are interested in, namely `data-rank`, `data-artist`, `data-title`.
 
@@ -250,7 +249,7 @@ get_chart <- function(date = Sys.Date(), positions = c(1:10), type = "hot-100") 
 
 ```
 
-Now let's test our function by looking up the Top 10 singles from 20th January 1966:
+Now let's test our function by looking up the Top 10 singles from 20th January 1975:
 
 ``` {r top tens}
 
@@ -262,7 +261,7 @@ knitr::kable(test1)
 
 ## 3.2 Example: Packaging `wikifacts`
 
-Recently I thought it might be useful to have a package that generated random facts for people.  This could be helpful for scripts or apps that take a long time to execute, where you could occasionally display random facts to keep people entertained.
+Recently I thought it might be useful to have a package that generated random facts for people.  This could be helpful for scripts or apps that take a long time to execute, where you could occasionally display random facts to keep people interested.
 
 The Wikipedia Main Page has three predictable sections which can be reliably scraped.  So I used them to create three functions:
 
