@@ -273,9 +273,9 @@ the class names `chart-element__rank__number`,
 <img src="class item screenshot.png" alt="This is the node we are looking for!">
 
 Now we can use the function `xml_find_all()` to find all `<span>` nodes
-in the body of the document that have a class name containing
-`chart-list-item`. `xml_find_all()` accepts `xpath` syntax. You can
-learn more about `xpath` syntax
+in the body of the document that have a class name containing the class
+names we want. `xml_find_all()` accepts `xpath` syntax. You can learn
+more about `xpath` syntax
 [here](https://www.w3schools.com/xml/xpath_syntax.asp). Once those
 precise nodes are located, we can use the `rvest` function `html_text()`
 to simply extract the info we want:
@@ -486,10 +486,10 @@ library(wikifacts)
 wiki_didyouknow()
 ```
 
-    ## Did you know that Józef Walaszczyk had to collect one kilogram (2.2 lb) of gold within five hours to save 21 Jews? (Courtesy of Wikipedia)
+    ## Did you know that depictions of urinating boys (example pictured) in Renaissance art could alternately represent boyish innocence or erotic virility? (Courtesy of Wikipedia)
 
 ``` r
 wiki_onthisday()
 ```
 
-    ## Did you know that on this day in 1992 – Appearing on the talk show Larry King Live, U.S. industrialist Ross Perot announced that he would begin a presidential campaign if "ordinary people" wanted him to run for office. (Courtesy of Wikipedia)
+    ## Did you know that on this day in 1816 – Italian composer Gioachino Rossini's opera buffa The Barber of Seville premiered at the Teatro Argentina in Rome to jeers from the audience. (Courtesy of Wikipedia)

@@ -141,7 +141,7 @@ What we see is that each chart entry appears to be in `<span>` tag with the clas
 
 <img src="class item screenshot.png" alt="This is the node we are looking for!">
 
-Now we can use the function `xml_find_all()` to find all `<span>` nodes in the body of the document that have a class name containing `chart-list-item`.  `xml_find_all()` accepts `xpath` syntax.  You can learn more about `xpath` syntax [here](https://www.w3schools.com/xml/xpath_syntax.asp).  Once those precise nodes are located, we can use the `rvest` function `html_text()` to simply extract the info we want:
+Now we can use the function `xml_find_all()` to find all `<span>` nodes in the body of the document that have a class name containing the class names we want.  `xml_find_all()` accepts `xpath` syntax.  You can learn more about `xpath` syntax [here](https://www.w3schools.com/xml/xpath_syntax.asp).  Once those precise nodes are located, we can use the `rvest` function `html_text()` to simply extract the info we want:
 
 ``` {r chart nodes}
 
