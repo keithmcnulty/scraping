@@ -166,7 +166,7 @@ pretty bling. There are videos popping up, images all over the place.
 But the basic point of the page is to show the current Hot 100 chart.
 
 So let’s set ourselves the task of just harvesting the basic info from
-this page: Position Number, Artist, Song Title for the Hot 100.
+this page: Rank, Artist, Song Title for the Hot 100.
 
 ## Getting started
 
@@ -180,10 +180,10 @@ hot100 <- read_html(hot100page)
 hot100
 ```
 
-    ## {xml_document}
+    ## {html_document}
     ## <html class="" lang="">
-    ## [1] <head>\n<meta http-equiv="Content-Type" content="text/html; charset= ...
-    ## [2] <body class="chart-page chart-page- " data-trackcategory="Charts-The ...
+    ## [1] <head>\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
+    ## [2] <body class="chart-page chart-page-" data-trackcategory="Charts-TheHot100 ...
 
 ``` r
 str(hot100)
@@ -208,27 +208,28 @@ body_nodes <- hot100 %>%
 body_nodes
 ```
 
-    ## {xml_nodeset (20)}
-    ##  [1] <div class="header-wrapper ">\n<header id="site-header" class="site ...
+    ## {xml_nodeset (37)}
+    ##  [1] <div class="header-wrapper ">\n<header id="site-header" class="site-head ...
     ##  [2] <div class="site-header__placeholder"></div>
-    ##  [3] <main id="main" class="page-content"><div class="chart-detail-heade ...
-    ##  [4] <div class="ad_desktop dfp-ad" data-position="promo" data-sizes="[[ ...
-    ##  [5] <footer id="site-footer" class="site-footer"><div class="container  ...
-    ##  [6] <script>\n    window.CLARITY = window.CLARITY || [];\n</script>
-    ##  [7] <div class="ad_clarity" data-out-of-page="true" style="display: non ...
-    ##  [8] <script>\n    CLARITY.push({\n        use: ['ads', 'cookies', 'head ...
-    ##  [9] <script type="text/javascript" src="https://assets.billboard.com/as ...
-    ## [10] <script type="text/javascript" src="https://assets.billboard.com/as ...
-    ## [11] <script type="text/javascript" src="https://assets.billboard.com/as ...
-    ## [12] <script type="text/javascript" src="https://assets.billboard.com/as ...
-    ## [13] <script type="text/javascript" src="https://assets.billboard.com/as ...
-    ## [14] <script type="text/javascript">\n\tvar _sf_async_config={};\n\t/**  ...
-    ## [15] <script class="kxct" data-id="JsVUOKRj" data-timing="async" data-ve ...
-    ## [16] <script class="kxint" type="text/javascript">\n    window.Krux||((K ...
-    ## [17] <script data-src="//platform.instagram.com/en_US/embeds.js"></script>
-    ## [18] <script data-src="//platform.twitter.com/widgets.js"></script>
-    ## [19] <div id="fb-root"></div>
-    ## [20] <script type="text/javascript">\n    PGM.createScriptTag("//connect ...
+    ##  [3] <script>\n        var PGM = window.PGM || {};\n        PGM.config = PGM. ...
+    ##  [4] <div class="chart-piano-overlay__attachment-point"></div>
+    ##  [5] <main id="main" class="page-content"><div id="charts" data-page-title="T ...
+    ##  [6] <div class="ad_desktop dfp-ad" data-position="promo" data-sizes="[[2,2]] ...
+    ##  [7] <footer id="site-footer" class="site-footer"><div class="container foote ...
+    ##  [8] <div class="biz-modal">\n    <div class="biz-modal__content">\n        < ...
+    ##  [9] <script>\n    window.CLARITY = window.CLARITY || [];\n</script>
+    ## [10] <div class="ad_clarity" data-out-of-page="true" style="display: none;">< ...
+    ## [11] <script>\n    var darkMatterCMD = function() {\n        this.darkMatterC ...
+    ## [12] <script>\n    CLARITY.push({\n        use: ['ads'],\n        run: functi ...
+    ## [13] <script src="https://assets.billboard.com/assets/1580164465/js/external_ ...
+    ## [14] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
+    ## [15] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
+    ## [16] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
+    ## [17] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
+    ## [18] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
+    ## [19] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
+    ## [20] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
+    ## ...
 
 If we want, we can go one level deeper, to see the nodes inside the
 nodes. In this way, we can just continue to pipe deeper into the code:
@@ -238,19 +239,16 @@ body_nodes %>%
   html_children()
 ```
 
-    ## {xml_nodeset (12)}
-    ##  [1] <header id="site-header" class="site-header " role="banner"><div cl ...
-    ##  [2] <div class="header-wrapper__secondary-header">\n<nav class="site-he ...
-    ##  [3] <div class="chart-detail-header">\n<div class="chart-detail-header_ ...
-    ##  [4] <div class="ad-container leaderboard leaderboard--top">\n<div class ...
-    ##  [5] <div class="container chart-container container--xxlight-grey conta ...
-    ##  [6] <div class="chart-list__expanded-header">\n<div class="chart-list__ ...
-    ##  [7] <div id="dateSearchModal" class="date-search-modal" data-visible="f ...
-    ##  [8] <div class="ad-holder ad-holder--footer">\n<div class="ad_desktop d ...
-    ##  [9] <div class="container footer-content">\n<div class="cover-image">\n ...
-    ## [10] <div class="container">\n<p class="copyright__paragraph">© 2019 Bil ...
-    ## [11] <div class="container">\n<p class="station-identification">\nBillbo ...
-    ## [12] <div class="container">\n<div class="ad_desktop dfp-ad dfp-ad-adhes ...
+    ## {xml_nodeset (9)}
+    ## [1] <header id="site-header" class="site-header " role="banner"><div class="s ...
+    ## [2] <div class="header-wrapper__secondary-header">\n<nav class="site-header-l ...
+    ## [3] <div id="charts" data-page-title="THE HOT 100" data-chart-code="HSI" data ...
+    ## [4] <div class="ad-holder ad-holder--footer">\n        \n\n\n            \n   ...
+    ## [5] <div class="container footer-content">\n\t\t<div class="cover-image">\n\t ...
+    ## [6] <div class="container">\n\t\t<p class="copyright__paragraph">© 2020 Billb ...
+    ## [7] <div class="container">\n\t\t<p class="station-identification">\n\t\t\tBi ...
+    ## [8] <div class="container">\n\t\t\t\n\n\n            \n    <div class="ad_des ...
+    ## [9] <div class="biz-modal__content">\n        <button class="biz-modal__close ...
 
 ## Forensically targeting information of interest
 
@@ -264,114 +262,45 @@ the elements of the page that the code refers to are highlighted in the
 browser. You can click to expand embedded nodes to get to more specific
 parts of the page. You can watch the video I added to this repo to see
 how I progressively drill down the code to find the precise nodes that
-contain the details of each chart entry.
+contain the details of each chart entry (note this video uses a previous
+version of the site but you’ll get the idea).
 
-What we see is that each chart entry appears to be in a `<div>` tag with
-the class name `chart-list-item` and the div tag seems to have
-attributes that we are interested in, namely `data-rank`, `data-artist`,
-`data-title`.
+What we see is that each chart entry appears to be in `<span>` tag with
+the class names `chart-element__rank__number`,
+`chart-element__information__artist` and
+`chart-element__information__song`.
 
 <img src="class item screenshot.png" alt="This is the node we are looking for!">
 
-Now we can use the function `xml_find_all()` to find all `<div>` nodes
+Now we can use the function `xml_find_all()` to find all `<span>` nodes
 in the body of the document that have a class name containing
 `chart-list-item`. `xml_find_all()` accepts `xpath` syntax. You can
 learn more about `xpath` syntax
-[here](https://www.w3schools.com/xml/xpath_syntax.asp):
-
-``` r
-chart_items <- hot100 %>% 
-  html_node("body") %>% 
-  xml_find_all("//div[contains(@class, 'chart-list-item')]")
-
-chart_items
-```
-
-    ## {xml_nodeset (2595)}
-    ##  [1] <div class="chart-list-item__expanded-header">\n<div class="chart-v ...
-    ##  [2] <div class="chart-list-item  " data-rank="1" data-artist="Lil Nas X ...
-    ##  [3] <div class="chart-list-item__first-row chart-list-item__cursor-poin ...
-    ##  [4] <div class="chart-list-item__position ">\n<div class="chart-list-it ...
-    ##  [5] <div class="chart-list-item__rank ">\n1\n</div>
-    ##  [6] <div class="chart-list-item__award">\n<i class="fa fa-dot-circle-o" ...
-    ##  [7] <div class="chart-list-item__image-wrapper">\n<div class="chart-lis ...
-    ##  [8] <div class="chart-list-item__video-play-overlay">\n<img class="play ...
-    ##  [9] <div class="chart-list-item__trend-icon">\n</div>
-    ## [10] <div class="chart-list-item__text-wrapper">\n<div class="chart-list ...
-    ## [11] <div class="chart-list-item__text chart-list-item__text--has-video" ...
-    ## [12] <div class="chart-list-item__title">\n<span class="chart-list-item_ ...
-    ## [13] <div class="chart-list-item__artist">\nLil Nas X Featuring Billy Ra ...
-    ## [14] <div class="chart-list-item__lyrics">\n<a href="https://www.billboa ...
-    ## [15] <div class="chart-list-item__video-icon-wrapper">\n<div class="char ...
-    ## [16] <div class="chart-list-item__video-icon chart-list-item__video--pla ...
-    ## [17] <div class="chart-list-item__chevron-wrapper">\n <i class="fa fa-ch ...
-    ## [18] <div class="chart-list-item__extra-info">\n<div class="chart-list-i ...
-    ## [19] <div class="chart-list-item__extra-info-shadow"></div>
-    ## [20] <div class="chart-list-item__expanded-header">\n<div class="chart-v ...
-    ## ...
-
-This looks like there’s a lot of nodes that have our search string in
-them, but Node 2 looks interesting - let’s take a closer look at its
-attributes using the function `xml_attrs()`.
-
-``` r
-chart_items[2] %>% 
-  xml_attrs()
-```
-
-    ## [[1]]
-    ##                                 class 
-    ##                   "chart-list-item  " 
-    ##                             data-rank 
-    ##                                   "1" 
-    ##                           data-artist 
-    ## "Lil Nas X Featuring Billy Ray Cyrus" 
-    ##                            data-title 
-    ##                       "Old Town Road" 
-    ##                      data-has-content 
-    ##                                "true"
-
-Now that looks like what we want. Nice\! So it looks like we are after
-`<div>` nodes with the class `'chart-list-item '` (note the two spaces
-at the end.) You’ll see that these `<div>` nodes have the attributes we
-need, and we can draw them down individually using the `xml_attr()`
-function:
-
-``` r
-title <- hot100 %>% 
-  html_node("body") %>% 
-  xml_find_all("//div[contains(@class, 'chart-list-item  ')]") %>% 
-  xml_attr("data-title")
-
-title %>%  head(10)
-```
-
-    ##  [1] "Old Town Road"                                
-    ##  [2] "Bad Guy"                                      
-    ##  [3] "I Don't Care"                                 
-    ##  [4] "Senorita"                                     
-    ##  [5] "Talk"                                         
-    ##  [6] "Truth Hurts"                                  
-    ##  [7] "Goodbyes"                                     
-    ##  [8] "Sucker"                                       
-    ##  [9] "Sunflower (Spider-Man: Into The Spider-Verse)"
-    ## [10] "No Guidance"
-
-That’s the Billboard Hot 100 Top 10\! Nice\! Now we can easy draw down
-the other two attributes we want and combine them all into a neat
-dataframe.
+[here](https://www.w3schools.com/xml/xpath_syntax.asp). Once those
+precise nodes are located, we can use the `rvest` function `html_text()`
+to simply extract the info we want:
 
 ``` r
 rank <- hot100 %>% 
-  html_node("body") %>% 
-  xml_find_all("//div[contains(@class, 'chart-list-item  ')]") %>% 
-  xml_attr('data-rank')
-  
+  rvest::html_nodes('body') %>% 
+  xml2::xml_find_all("//span[contains(@class, 'chart-element__rank__number')]") %>% 
+  rvest::html_text()
+
 artist <- hot100 %>% 
-  html_node("body") %>% 
-  xml_find_all("//div[contains(@class, 'chart-list-item  ')]") %>% 
-  xml_attr('data-artist')
-  
+  rvest::html_nodes('body') %>% 
+  xml2::xml_find_all("//span[contains(@class, 'chart-element__information__artist')]") %>% 
+  rvest::html_text()
+
+title <- hot100 %>% 
+  rvest::html_nodes('body') %>% 
+  xml2::xml_find_all("//span[contains(@class, 'chart-element__information__song')]") %>% 
+  rvest::html_text()
+```
+
+That’s the Billboard Hot 100\! Nice\! Now we can combine them all into a
+neat dataframe.
+
+``` r
 chart_df <- data.frame(rank, artist, title)
 
 knitr::kable(
@@ -379,18 +308,18 @@ knitr::kable(
 )
 ```
 
-| rank | artist                              | title                                         |
-| :--- | :---------------------------------- | :-------------------------------------------- |
-| 1    | Lil Nas X Featuring Billy Ray Cyrus | Old Town Road                                 |
-| 2    | Billie Eilish                       | Bad Guy                                       |
-| 3    | Ed Sheeran & Justin Bieber          | I Don’t Care                                  |
-| 4    | Shawn Mendes & Camila Cabello       | Senorita                                      |
-| 5    | Khalid                              | Talk                                          |
-| 6    | Lizzo                               | Truth Hurts                                   |
-| 7    | Post Malone Featuring Young Thug    | Goodbyes                                      |
-| 8    | Jonas Brothers                      | Sucker                                        |
-| 9    | Post Malone & Swae Lee              | Sunflower (Spider-Man: Into The Spider-Verse) |
-| 10   | Chris Brown Featuring Drake         | No Guidance                                   |
+| rank | artist                     | title               |
+| :--- | :------------------------- | :------------------ |
+| 1    | Roddy Ricch                | The Box             |
+| 2    | Future Featuring Drake     | Life Is Good        |
+| 3    | Post Malone                | Circles             |
+| 4    | Maroon 5                   | Memories            |
+| 5    | Tones And I                | Dance Monkey        |
+| 6    | Dua Lipa                   | Don’t Start Now     |
+| 7    | Arizona Zervas             | Roxanne             |
+| 8    | Lewis Capaldi              | Someone You Loved   |
+| 9    | Dan + Shay & Justin Bieber | 10,000 Hours        |
+| 10   | Billie Eilish              | everything i wanted |
 
 # Making scraping easy by automating tasks
 
@@ -432,25 +361,27 @@ get_chart <- function(date = Sys.Date(), positions = c(1:10), type = "hot-100") 
 
   
   # scrape data
-  chart <- chart_page %>% 
+  rank <- chart_page %>% 
     rvest::html_nodes('body') %>% 
-    xml2::xml_find_all("//div[contains(@class, 'chart-list-item  ')]")
-
-  rank <- chart %>% 
-    xml2::xml_attr('data-rank')
+    xml2::xml_find_all("//span[contains(@class, 'chart-element__rank__number')]") %>% 
+    rvest::html_text()
   
-  artist <- chart %>% 
-    xml2::xml_attr('data-artist')
+  artist <- chart_page %>% 
+    rvest::html_nodes('body') %>% 
+    xml2::xml_find_all("//span[contains(@class, 'chart-element__information__artist')]") %>% 
+    rvest::html_text()
   
-  title <- chart %>% 
-    xml2::xml_attr('data-title')
+  title <- chart_page %>% 
+    rvest::html_nodes('body') %>% 
+    xml2::xml_find_all("//span[contains(@class, 'chart-element__information__song')]") %>% 
+    rvest::html_text()
 
   # create dataframe, remove nas and return result
   chart_df <- data.frame(rank, artist, title)
   chart_df <- chart_df %>% 
     dplyr::filter(!is.na(rank), rank %in% positions)
 
-  chart_df
+chart_df
 
 }
 ```
@@ -493,25 +424,25 @@ eurovision_1974 <- get_eurovision(1974)
 knitr::kable(eurovision_1974)
 ```
 
-| Country        | Artist                                 | Song                                                               | Language\[9\] | Place | Points |
-| :------------- | :------------------------------------- | :----------------------------------------------------------------- | :------------ | ----: | -----: |
-| Sweden         | ABBA                                   | “Waterloo”                                                         | English       |     1 |     24 |
-| Italy          | Gigliola Cinquetti                     | “Sì”                                                               | Italian       |     2 |     18 |
-| Netherlands    | Mouth & MacNeal                        | “I See a Star”                                                     | English       |     3 |     15 |
-| United Kingdom | Olivia Newton-John                     | “Long Live Love”                                                   | English       |     4 |     14 |
-| Luxembourg     | Ireen Sheer                            | “Bye Bye I Love You”                                               | Frencha       |     4 |     14 |
-| Monaco         | Romuald                                | “Celui qui reste et celui qui s’en va”                             | French        |     4 |     14 |
-| Israel         | Kaveret                                | “Natati La Khayay” (נתתי לה חיי)                                   | Hebrew        |     7 |     11 |
-| Ireland        | Tina Reynolds                          | “Cross Your Heart”                                                 | English       |     7 |     11 |
-| Spain          | Peret                                  | “Canta y sé feliz”                                                 | Spanish       |     9 |     10 |
-| Belgium        | Jacques Hustin                         | “Fleur de liberté”                                                 | French        |     9 |     10 |
-| Greece         | Marinella                              | “Krasi, thalassa ke t’ agori mou”(Κρασί, θάλασσα και τ’ αγόρι μου) | Greek         |    11 |      7 |
-| Yugoslavia     | Korni Grupa                            | “Generacija ’42” (Генерација ’42)                                  | Serbian       |    12 |      6 |
-| Finland        | Carita                                 | “Keep Me Warm”                                                     | English       |    13 |      4 |
-| Norway         | Anne-Karine Strøm feat. Bendik Singers | “The First Day of Love”                                            | English       |    14 |      3 |
-| Germany        | Cindy & Bert                           | “Die Sommermelodie”                                                | German        |    14 |      3 |
-| Switzerland    | Piera Martell                          | “Mein Ruf nach dir”                                                | German        |    14 |      3 |
-| Portugal       | Paulo de Carvalho                      | “E depois do adeus”                                                | Portuguese    |    14 |      3 |
+| Country        | Artist                                 | Song                                                               | Language\[9\]  | Place | Points |
+| :------------- | :------------------------------------- | :----------------------------------------------------------------- | :------------- | ----: | -----: |
+| Sweden         | ABBA                                   | “Waterloo”                                                         | English        |     1 |     24 |
+| Italy          | Gigliola Cinquetti                     | “Sì”                                                               | Italian        |     2 |     18 |
+| Netherlands    | Mouth & MacNeal                        | “I See a Star”                                                     | English        |     3 |     15 |
+| United Kingdom | Olivia Newton-John                     | “Long Live Love”                                                   | English        |     4 |     14 |
+| Luxembourg     | Ireen Sheer                            | “Bye Bye I Love You”                                               | Frencha        |     4 |     14 |
+| Monaco         | Romuald                                | “Celui qui reste et celui qui s’en va”                             | French         |     4 |     14 |
+| Israel         | Kaveret                                | “Natati La Khayay” (נתתי לה חיי)                                   | Hebrew         |     7 |     11 |
+| Ireland        | Tina Reynolds                          | “Cross Your Heart”                                                 | English        |     7 |     11 |
+| Spain          | Peret                                  | “Canta y sé feliz”                                                 | Spanish        |     9 |     10 |
+| Belgium        | Jacques Hustin                         | “Fleur de liberté”                                                 | French         |     9 |     10 |
+| Greece         | Marinella                              | “Krasi, thalassa ke t’ agori mou”(Κρασί, θάλασσα και τ’ αγόρι μου) | Greek          |    11 |      7 |
+| Yugoslavia     | Korni Grupa                            | “Generacija ’42” (Генерација ’42)                                  | Serbo-Croatian |    12 |      6 |
+| Finland        | Carita                                 | “Keep Me Warm”                                                     | English        |    13 |      4 |
+| Norway         | Anne-Karine Strøm feat. Bendik Singers | “The First Day of Love”                                            | English        |    14 |      3 |
+| Germany        | Cindy & Bert                           | “Die Sommermelodie”                                                | German         |    14 |      3 |
+| Switzerland    | Piera Martell                          | “Mein Ruf nach dir”                                                | German         |    14 |      3 |
+| Portugal       | Paulo de Carvalho                      | “E depois do adeus”                                                | Portuguese     |    14 |      3 |
 
 ## Example: Packaging `wikifacts`
 
@@ -538,10 +469,15 @@ from github. Here’s some examples of the functions at work:
 
 ``` r
 library(devtools)
+```
+
+    ## Loading required package: usethis
+
+``` r
 devtools::install_github("keithmcnulty/wikifacts")
 ```
 
-    ## Skipping install of 'wikifacts' from a github remote, the SHA1 (50ef374c) has not changed since last install.
+    ## Skipping install of 'wikifacts' from a github remote, the SHA1 (f7e7f232) has not changed since last install.
     ##   Use `force = TRUE` to force installation
 
 ``` r
@@ -550,11 +486,10 @@ library(wikifacts)
 wiki_didyouknow()
 ```
 
-    ## Did you know that Joe Biden prefers the Chevrolet Corvette, but Joe Biden prefers the Pontiac Trans Am? (Courtesy of Wikipedia)
+    ## Did you know that Józef Walaszczyk had to collect one kilogram (2.2 lb) of gold within five hours to save 21 Jews? (Courtesy of Wikipedia)
 
 ``` r
 wiki_onthisday()
 ```
 
-    ## Did you know that on this day in 2009 – The militant Islamist group Boko Haram launched an attack on a Nigeria Police Force station, sparking violence across several states in northeastern Nigeria, leaving more than 1,000 people dead. (Courtesy of Wikipedia)
-
+    ## Did you know that on this day in 1992 – Appearing on the talk show Larry King Live, U.S. industrialist Ross Perot announced that he would begin a presidential campaign if "ordinary people" wanted him to run for office. (Courtesy of Wikipedia)

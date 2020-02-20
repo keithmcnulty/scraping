@@ -21,20 +21,20 @@ get_chart <- function(date = Sys.Date(), positions = c(1:10), type = "hot-100") 
 
   
   # scrape data
-  chart <- chart_page %>% 
+  rank <- chart_page %>% 
     rvest::html_nodes('body') %>% 
-    xml2::xml_find_all("//div[contains(@class, 'chart-list-item  ')]")
-
-
-
-  rank <- chart %>% 
-    xml2::xml_attr('data-rank')
+    xml2::xml_find_all("//span[contains(@class, 'chart-element__rank__number')]") %>% 
+    rvest::html_text()
   
-  artist <- chart %>% 
-    xml2::xml_attr('data-artist')
+  artist <- chart_page %>% 
+    rvest::html_nodes('body') %>% 
+    xml2::xml_find_all("//span[contains(@class, 'chart-element__information__artist')]") %>% 
+    rvest::html_text()
   
-  title <- chart %>% 
-    xml2::xml_attr('data-title')
+  title <- chart_page %>% 
+    rvest::html_nodes('body') %>% 
+    xml2::xml_find_all("//span[contains(@class, 'chart-element__information__song')]") %>% 
+    rvest::html_text()
 
   # create dataframe, remove nas and return result
   chart_df <- data.frame(rank, artist, title)

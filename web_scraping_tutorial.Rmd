@@ -98,7 +98,7 @@ library(dplyr)
 
 We are going to use the example of mining the Billboard Hot 100 page at https://www.billboard.com/charts/hot-100.   If you view this page, it's pretty bling.  There are videos popping up, images all over the place.  But the basic point of the page is to show the current Hot 100 chart.  
 
-So let's set ourselves the task of just harvesting the basic info from this page: Position Number, Artist, Song Title for the Hot 100.
+So let's set ourselves the task of just harvesting the basic info from this page: Rank, Artist, Song Title for the Hot 100.
 
 ## Getting started
 
@@ -135,56 +135,35 @@ body_nodes %>%
 
 So we could mess around with the functions above for a long time, but might find it hard to work out where exactly this chart data is.  We can use Chrome Developer to tell us where we can find the data in the code, and then we can use `rvest` to harvest out the data.
 
-If you run your mouse over the code in the Developer you will see that the elements of the page that the code refers to are highlighted in the browser.  You can click to expand embedded nodes to get to more specific parts of the page.  You can watch the video I added to this repo to see how I progressively drill down the code to find the precise nodes that contain the details of each chart entry.
+If you run your mouse over the code in the Developer you will see that the elements of the page that the code refers to are highlighted in the browser.  You can click to expand embedded nodes to get to more specific parts of the page.  You can watch the video I added to this repo to see how I progressively drill down the code to find the precise nodes that contain the details of each chart entry (note this video uses a previous version of the site but you'll get the idea).
 
-What we see is that each chart entry appears to be in a `<div>` tag with the class name `chart-list-item` and the div tag seems to have attributes that we are interested in, namely `data-rank`, `data-artist`, `data-title`.
+What we see is that each chart entry appears to be in `<span>` tag with the class names `chart-element__rank__number`, `chart-element__information__artist` and `chart-element__information__song`.
 
 <img src="class item screenshot.png" alt="This is the node we are looking for!">
 
-Now we can use the function `xml_find_all()` to find all `<div>` nodes in the body of the document that have a class name containing `chart-list-item`.  `xml_find_all()` accepts `xpath` syntax.  You can learn more about `xpath` syntax [here](https://www.w3schools.com/xml/xpath_syntax.asp):
+Now we can use the function `xml_find_all()` to find all `<span>` nodes in the body of the document that have a class name containing `chart-list-item`.  `xml_find_all()` accepts `xpath` syntax.  You can learn more about `xpath` syntax [here](https://www.w3schools.com/xml/xpath_syntax.asp).  Once those precise nodes are located, we can use the `rvest` function `html_text()` to simply extract the info we want:
 
 ``` {r chart nodes}
 
-chart_items <- hot100 %>% 
-  html_node("body") %>% 
-  xml_find_all("//div[contains(@class, 'chart-list-item')]")
+rank <- hot100 %>% 
+  rvest::html_nodes('body') %>% 
+  xml2::xml_find_all("//span[contains(@class, 'chart-element__rank__number')]") %>% 
+  rvest::html_text()
 
-chart_items
-```
+artist <- hot100 %>% 
+  rvest::html_nodes('body') %>% 
+  xml2::xml_find_all("//span[contains(@class, 'chart-element__information__artist')]") %>% 
+  rvest::html_text()
 
-This looks like there's a lot of nodes that have our search string in them, but Node 2 looks interesting - let's take a closer look at its attributes using the function `xml_attrs()`.
-
-``` {r inspect}
-chart_items[2] %>% 
-  xml_attrs()
-
-```
-
-Now that looks like what we want. Nice!  So it looks like we are after `<div>` nodes with the class `'chart-list-item  '` (note the two spaces at the end.)  You'll see that these `<div>` nodes have the attributes we need, and we can draw them down individually using the `xml_attr()` function:
-
-``` {r get data-title}
 title <- hot100 %>% 
-  html_node("body") %>% 
-  xml_find_all("//div[contains(@class, 'chart-list-item  ')]") %>% 
-  xml_attr("data-title")
-
-title %>%  head(10)
-
+  rvest::html_nodes('body') %>% 
+  xml2::xml_find_all("//span[contains(@class, 'chart-element__information__song')]") %>% 
+  rvest::html_text()
 ```
 
-That's the Billboard Hot 100 Top 10!  Nice!  Now we can easy draw down the other two attributes we want and combine them all into a neat dataframe.
+That's the Billboard Hot 100!  Nice!  Now we can combine them all into a neat dataframe.
 
 ``` {r chart-df}
-
-rank <- hot100 %>% 
-  html_node("body") %>% 
-  xml_find_all("//div[contains(@class, 'chart-list-item  ')]") %>% 
-  xml_attr('data-rank')
-  
-artist <- hot100 %>% 
-  html_node("body") %>% 
-  xml_find_all("//div[contains(@class, 'chart-list-item  ')]") %>% 
-  xml_attr('data-artist')
   
 chart_df <- data.frame(rank, artist, title)
 
@@ -225,25 +204,27 @@ get_chart <- function(date = Sys.Date(), positions = c(1:10), type = "hot-100") 
 
   
   # scrape data
-  chart <- chart_page %>% 
+  rank <- chart_page %>% 
     rvest::html_nodes('body') %>% 
-    xml2::xml_find_all("//div[contains(@class, 'chart-list-item  ')]")
-
-  rank <- chart %>% 
-    xml2::xml_attr('data-rank')
+    xml2::xml_find_all("//span[contains(@class, 'chart-element__rank__number')]") %>% 
+    rvest::html_text()
   
-  artist <- chart %>% 
-    xml2::xml_attr('data-artist')
+  artist <- chart_page %>% 
+    rvest::html_nodes('body') %>% 
+    xml2::xml_find_all("//span[contains(@class, 'chart-element__information__artist')]") %>% 
+    rvest::html_text()
   
-  title <- chart %>% 
-    xml2::xml_attr('data-title')
+  title <- chart_page %>% 
+    rvest::html_nodes('body') %>% 
+    xml2::xml_find_all("//span[contains(@class, 'chart-element__information__song')]") %>% 
+    rvest::html_text()
 
   # create dataframe, remove nas and return result
   chart_df <- data.frame(rank, artist, title)
   chart_df <- chart_df %>% 
     dplyr::filter(!is.na(rank), rank %in% positions)
 
-  chart_df
+chart_df
 
 }
 
