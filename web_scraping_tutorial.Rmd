@@ -1,6 +1,6 @@
 ---
 title: "Scraping and Harvesting Web Data in R"
-date: "Created by Keith McNulty on 26th July 2019"
+date: "Created by Keith McNulty on 26th May 2020"
 output:
   github_document:
     toc: yes
@@ -278,6 +278,16 @@ library(wikifacts)
 wiki_didyouknow()
 
 wiki_onthisday()
+
+```
+
+
+## Appendix:  Reproducibility log
+
+```{r}
+git2r::repository()
+
+sessionInfo()
 
 ```
 

@@ -1,27 +1,6 @@
 Scraping and Harvesting Web Data in R
 ================
-Created by Keith McNulty on 26th July 2019
-
-  - [Web Page Structure and Format](#web-page-structure-and-format)
-      - [`HTML` code](#html-code)
-      - [`XML` code](#xml-code)
-      - [Using Google Chrome Developer](#using-google-chrome-developer)
-      - [Embedded structure of web
-        code](#embedded-structure-of-web-code)
-      - [The `rvest` and `xml2` packages](#the-rvest-and-xml2-packages)
-  - [Basic harvesting: The Billboard Hot 100
-    page](#basic-harvesting-the-billboard-hot-100-page)
-      - [Getting started](#getting-started)
-      - [Forensically targeting information of
-        interest](#forensically-targeting-information-of-interest)
-  - [Making scraping easy by automating
-    tasks](#making-scraping-easy-by-automating-tasks)
-      - [Example: Writing a function to grab any Billboard chart from
-        history](#example-writing-a-function-to-grab-any-billboard-chart-from-history)
-      - [Example: Writing a function to grab any set of Eurovision Song
-        Contest
-        results](#example-writing-a-function-to-grab-any-set-of-eurovision-song-contest-results)
-      - [Example: Packaging `wikifacts`](#example-packaging-wikifacts)
+Created by Keith McNulty on 26th May 2020
 
 # Web Page Structure and Format
 
@@ -208,27 +187,27 @@ body_nodes <- hot100 %>%
 body_nodes
 ```
 
-    ## {xml_nodeset (37)}
+    ## {xml_nodeset (36)}
     ##  [1] <div class="header-wrapper ">\n<header id="site-header" class="site-head ...
     ##  [2] <div class="site-header__placeholder"></div>
     ##  [3] <script>\n        var PGM = window.PGM || {};\n        PGM.config = PGM. ...
     ##  [4] <div class="chart-piano-overlay__attachment-point"></div>
     ##  [5] <main id="main" class="page-content"><div id="charts" data-page-title="T ...
-    ##  [6] <div class="ad_desktop dfp-ad" data-position="promo" data-sizes="[[2,2]] ...
-    ##  [7] <footer id="site-footer" class="site-footer"><div class="container foote ...
-    ##  [8] <div class="biz-modal">\n    <div class="biz-modal__content">\n        < ...
-    ##  [9] <script>\n    window.CLARITY = window.CLARITY || [];\n</script>
-    ## [10] <div class="ad_clarity" data-out-of-page="true" style="display: none;">< ...
-    ## [11] <script>\n    var darkMatterCMD = function() {\n        this.darkMatterC ...
-    ## [12] <script>\n    CLARITY.push({\n        use: ['ads'],\n        run: functi ...
-    ## [13] <script src="https://assets.billboard.com/assets/1580164465/js/external_ ...
-    ## [14] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
-    ## [15] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
-    ## [16] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
-    ## [17] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
-    ## [18] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
-    ## [19] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
-    ## [20] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
+    ##  [6] <div class="ad_desktop dfp-ad dfp-ad-promo " data-position="promo" data- ...
+    ##  [7] <div class="ad-container footerboard footerboard--bottom">\n    <div cla ...
+    ##  [8] <footer id="site-footer" class="site-footer"><div class="container foote ...
+    ##  [9] <div class="biz-modal">\n    <div class="biz-modal__content">\n        < ...
+    ## [10] <script>\n    window.CLARITY = window.CLARITY || [];\n</script>
+    ## [11] <div class="ad_clarity" data-out-of-page="true" style="display: none;">< ...
+    ## [12] <script>\n    var darkMatterCMD = function() {\n        this.darkMatterC ...
+    ## [13] <script src="https://www.billboard.com/assets/1590085295/js/vendors_/art ...
+    ## [14] <script src="https://www.billboard.com/assets/1590085295/js/vendors_/clo ...
+    ## [15] <script src="https://www.billboard.com/assets/1590085295/js/vendors_/rea ...
+    ## [16] <script src="https://www.billboard.com/assets/1590085295/js/vendors_/rea ...
+    ## [17] <script src="https://www.billboard.com/assets/1590085295/js/vendors_/rea ...
+    ## [18] <script src="https://www.billboard.com/assets/1590085295/js/vendors_/rea ...
+    ## [19] <script src="https://www.billboard.com/assets/1590085295/js/default_/art ...
+    ## [20] <script src="https://www.billboard.com/assets/1590085295/js/default_/rea ...
     ## ...
 
 If we want, we can go one level deeper, to see the nodes inside the
@@ -243,11 +222,11 @@ body_nodes %>%
     ## [1] <header id="site-header" class="site-header " role="banner"><div class="s ...
     ## [2] <div class="header-wrapper__secondary-header">\n<nav class="site-header-l ...
     ## [3] <div id="charts" data-page-title="THE HOT 100" data-chart-code="HSI" data ...
-    ## [4] <div class="ad-holder ad-holder--footer">\n        \n\n\n            \n   ...
-    ## [5] <div class="container footer-content">\n\t\t<div class="cover-image">\n\t ...
+    ## [4] <div class="footerboard-wrapper">\n        <div class="ad_desktop_placeho ...
+    ## [5] <div class="container footer-content">\n\t\t\t\t\t<div class="cover-image ...
     ## [6] <div class="container">\n\t\t<p class="copyright__paragraph">© 2020 Billb ...
     ## [7] <div class="container">\n\t\t<p class="station-identification">\n\t\t\tBi ...
-    ## [8] <div class="container">\n\t\t\t\n\n\n            \n    <div class="ad_des ...
+    ## [8] <div class="container">\n\t\t\n\n\n    <div class="ad_desktop dfp-ad dfp- ...
     ## [9] <div class="biz-modal__content">\n        <button class="biz-modal__close ...
 
 ## Forensically targeting information of interest
@@ -308,18 +287,18 @@ knitr::kable(
 )
 ```
 
-| rank | artist                     | title               |
-| :--- | :------------------------- | :------------------ |
-| 1    | Roddy Ricch                | The Box             |
-| 2    | Future Featuring Drake     | Life Is Good        |
-| 3    | Post Malone                | Circles             |
-| 4    | Maroon 5                   | Memories            |
-| 5    | Tones And I                | Dance Monkey        |
-| 6    | Dua Lipa                   | Don’t Start Now     |
-| 7    | Arizona Zervas             | Roxanne             |
-| 8    | Lewis Capaldi              | Someone You Loved   |
-| 9    | Dan + Shay & Justin Bieber | 10,000 Hours        |
-| 10   | Billie Eilish              | everything i wanted |
+| rank | artist                                | title           |
+| :--- | :------------------------------------ | :-------------- |
+| 1    | Ariana Grande & Justin Bieber         | Stuck With U    |
+| 2    | Doja Cat Featuring Nicki Minaj        | Say So          |
+| 3    | 6ix9ine                               | Gooba           |
+| 4    | The Weeknd                            | Blinding Lights |
+| 5    | Megan Thee Stallion Featuring Beyonce | Savage          |
+| 6    | Drake                                 | Toosie Slide    |
+| 7    | Roddy Ricch                           | The Box         |
+| 8    | DaBaby Featuring Roddy Ricch          | Rockstar        |
+| 9    | Dua Lipa                              | Don’t Start Now |
+| 10   | Post Malone                           | Circles         |
 
 # Making scraping easy by automating tasks
 
@@ -387,7 +366,8 @@ chart_df
 ```
 
 Now let’s test our function by looking up the Top 10 singles from 20th
-January 1975:
+January
+1975:
 
 ``` r
 test1 <- get_chart(date = "1975-01-20", positions = 1:10, type = "hot-100")
@@ -465,7 +445,8 @@ A fourth function `wiki_randomfact()` executes one of the above three
 functions at random.
 
 I packaged this into a package called `wikifacts` which can be installed
-from github. Here’s some examples of the functions at work:
+from github. Here’s some examples of the functions at
+    work:
 
 ``` r
 library(devtools)
@@ -477,7 +458,7 @@ library(devtools)
 devtools::install_github("keithmcnulty/wikifacts")
 ```
 
-    ## Skipping install of 'wikifacts' from a github remote, the SHA1 (f7e7f232) has not changed since last install.
+    ## Skipping install of 'wikifacts' from a github remote, the SHA1 (6ea552f6) has not changed since last install.
     ##   Use `force = TRUE` to force installation
 
 ``` r
@@ -486,10 +467,57 @@ library(wikifacts)
 wiki_didyouknow()
 ```
 
-    ## Did you know that depictions of urinating boys (example pictured) in Renaissance art could alternately represent boyish innocence or erotic virility? (Courtesy of Wikipedia)
+    ## [1] "Did you know that readings of The Crime and the Silence, a book about the Jedwabne massacre, have been picketed by the book's opponents? (Courtesy of Wikipedia)"
 
 ``` r
 wiki_onthisday()
 ```
 
-    ## Did you know that on this day in 1816 – Italian composer Gioachino Rossini's opera buffa The Barber of Seville premiered at the Teatro Argentina in Rome to jeers from the audience. (Courtesy of Wikipedia)
+    ## [1] "Did you know that on this day in 1938 – The House Un-American Activities Committee was established to investigate alleged disloyalty and subversive activities by people or organizations in the U.S. suspected of having communist or fascist ties. (Courtesy of Wikipedia)"
+
+## Appendix: Reproducibility log
+
+``` r
+git2r::repository()
+```
+
+    ## Local:    master /Users/keithmcnulty/scraping
+    ## Remote:   master @ origin (https://github.com/keithmcnulty/scraping.git)
+    ## Head:     [abdb5a7] 2020-02-20: website update
+
+``` r
+sessionInfo()
+```
+
+    ## R version 4.0.0 (2020-04-24)
+    ## Platform: x86_64-apple-darwin17.0 (64-bit)
+    ## Running under: macOS Catalina 10.15.4
+    ## 
+    ## Matrix products: default
+    ## BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
+    ## LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
+    ## 
+    ## locale:
+    ## [1] en_GB.UTF-8/en_GB.UTF-8/en_GB.UTF-8/C/en_GB.UTF-8/en_GB.UTF-8
+    ## 
+    ## attached base packages:
+    ## [1] stats     graphics  grDevices datasets  utils     methods   base     
+    ## 
+    ## other attached packages:
+    ## [1] wikifacts_0.2.9000 devtools_2.3.0     usethis_1.6.0      dplyr_0.8.99.9003 
+    ## [5] rvest_0.3.5        xml2_1.3.2        
+    ## 
+    ## loaded via a namespace (and not attached):
+    ##  [1] Rcpp_1.0.4.6      git2r_0.27.1      pillar_1.4.4      compiler_4.0.0   
+    ##  [5] highr_0.8         remotes_2.1.1     prettyunits_1.1.1 tools_4.0.0      
+    ##  [9] testthat_2.3.2    pkgload_1.0.2     digest_0.6.25     pkgbuild_1.0.7   
+    ## [13] evaluate_0.14     memoise_1.1.0     lifecycle_0.2.0   tibble_3.0.1     
+    ## [17] pkgconfig_2.0.3   rlang_0.4.6.9000  cli_2.0.2         curl_4.3         
+    ## [21] yaml_2.2.1        xfun_0.13         withr_2.2.0       httr_1.4.1       
+    ## [25] stringr_1.4.0     knitr_1.28        desc_1.2.0        generics_0.0.2   
+    ## [29] vctrs_0.3.0.9000  fs_1.4.1          rprojroot_1.3-2   tidyselect_1.1.0 
+    ## [33] glue_1.4.1        R6_2.4.1          processx_3.4.2    fansi_0.4.1      
+    ## [37] rmarkdown_2.1     sessioninfo_1.1.1 purrr_0.3.4       callr_3.4.3      
+    ## [41] selectr_0.4-2     magrittr_1.5      backports_1.1.6   ps_1.3.2         
+    ## [45] ellipsis_0.3.1    htmltools_0.4.0   assertthat_0.2.1  renv_0.9.3       
+    ## [49] stringi_1.4.6     crayon_1.3.4
