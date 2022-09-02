@@ -1,6 +1,6 @@
 ---
 title: "Scraping and Harvesting Web Data in R"
-date: "Created by Keith McNulty on 26th May 2020"
+date: "Created by Keith McNulty on 2nd September 2022"
 output:
   github_document:
     toc: yes
@@ -135,30 +135,48 @@ body_nodes %>%
 
 So we could mess around with the functions above for a long time, but might find it hard to work out where exactly this chart data is.  We can use Chrome Developer to tell us where we can find the data in the code, and then we can use `rvest` to harvest out the data.
 
-If you run your mouse over the code in the Developer you will see that the elements of the page that the code refers to are highlighted in the browser.  You can click to expand embedded nodes to get to more specific parts of the page.  You can watch the video I added to this repo to see how I progressively drill down the code to find the precise nodes that contain the details of each chart entry (note this video uses a previous version of the site but you'll get the idea).
+If you run your mouse over the code in the Developer Console, you will see that the elements of the page that the code refers to are highlighted in the browser.  You can click to expand embedded nodes to get to more specific parts of the page.  As elements are highlighted, you will see that their full html node identifiers appear, which are strings starting with the html tag and then the various class tags all separated by periods.  These help you zoom in on the specific elements of a web page which you hope to harvest data from.  If the code is very complex, another option is to right click the element you are interested in in the browser and then choose 'Inspect', which will take you straight to the elements code in the Developer Console.  Here is another image showing how to find the full html identifier:
 
-What we see is that each chart entry appears to be in `<span>` tag with the class names `chart-element__rank__number`, `chart-element__information__artist` and `chart-element__information__song`.
+<center><img src="chrome-dev-screenshot2.png" alt="Finding HTML identifier for an element"></center>
 
-<img src="class item screenshot.png" alt="This is the node we are looking for!">
+If we look carefully, we will see that the chart position for each element in the Billboard 100 list, is contained in a `ul` tag with the class `o-chart-results-list-row`, and is an XML arribute called `data-detail-target`.
 
-Now we can use the function `xml_find_all()` to find all `<span>` nodes in the body of the document that have a class name containing the class names we want.  `xml_find_all()` accepts `xpath` syntax.  You can learn more about `xpath` syntax [here](https://www.w3schools.com/xml/xpath_syntax.asp).  Once those precise nodes are located, we can use the `rvest` function `html_text()` to simply extract the info we want:
+Therefore, we can use the following code to pull a vector of chart positions, which we expect to have length 100.
 
-``` {r chart nodes}
-
+```{r}
+# get rank vector
 rank <- hot100 %>% 
-  rvest::html_nodes('body') %>% 
-  xml2::xml_find_all("//span[contains(@class, 'chart-element__rank__number')]") %>% 
-  rvest::html_text()
+  rvest::html_nodes('ul.o-chart-results-list-row') %>% 
+  xml2::xml_attr('data-detail-target')
 
-artist <- hot100 %>% 
-  rvest::html_nodes('body') %>% 
-  xml2::xml_find_all("//span[contains(@class, 'chart-element__information__artist')]") %>% 
-  rvest::html_text()
+# check it has length 100
+length(rank)
+```
 
+Perfect!  Now for the the vector of song titles, we can find these inside `h3` nodes whose class starts with `c-title.a-no-trucate.a-font-primary-bold-s.u-letter-spacing-0021`.  So we just need to get whatever text is contained in these tags.  Because text in web pages can often be surrounded by space and tabs, we can use the `trimws()` function to remove any surrounding whitespace.
+
+```{r}
+# get title vector
 title <- hot100 %>% 
-  rvest::html_nodes('body') %>% 
-  xml2::xml_find_all("//span[contains(@class, 'chart-element__information__song')]") %>% 
-  rvest::html_text()
+  rvest::html_nodes('h3.c-title.a-no-trucate.a-font-primary-bold-s.u-letter-spacing-0021') %>% 
+  rvest::html_text() |> 
+  trimws()
+
+# check it is of length 100
+length(title)
+```
+
+Similarly we can get the vector of artists:
+
+```{r}
+# get artist vector
+artist <- hot100 %>% 
+  rvest::html_nodes('span.c-label.a-no-trucate.a-font-primary-s') %>% 
+  rvest::html_text() |> 
+  trimws()
+
+# check it is of length 100
+length(artist)
 ```
 
 That's the Billboard Hot 100!  Nice!  Now we can combine them all into a neat dataframe.
@@ -170,8 +188,6 @@ chart_df <- data.frame(rank, artist, title)
 knitr::kable(
   chart_df  %>% head(10)
 )
-
-
 ```
 
 
@@ -196,7 +212,7 @@ Since this will always produce a webpage in exactly the same structure as the on
 #' @examples get_chart(date = "1972-11-02", positions = c(1:100), type = "billboard-200")
 
 
-get_chart <- function(date = Sys.Date(), positions = c(1:10), type = "hot-100") {
+get_chart <- function(date = Sys.Date(), positions = 1:10, type = "hot-100") {
 
   # get url from input and read html
   input <- paste0("https://www.billboard.com/charts/", type, "/", date) 
@@ -205,19 +221,19 @@ get_chart <- function(date = Sys.Date(), positions = c(1:10), type = "hot-100") 
   
   # scrape data
   rank <- chart_page %>% 
-    rvest::html_nodes('body') %>% 
-    xml2::xml_find_all("//span[contains(@class, 'chart-element__rank__number')]") %>% 
-    rvest::html_text()
-  
-  artist <- chart_page %>% 
-    rvest::html_nodes('body') %>% 
-    xml2::xml_find_all("//span[contains(@class, 'chart-element__information__artist')]") %>% 
-    rvest::html_text()
+    rvest::html_nodes('ul.o-chart-results-list-row') %>% 
+    xml2::xml_attr('data-detail-target')
   
   title <- chart_page %>% 
-    rvest::html_nodes('body') %>% 
-    xml2::xml_find_all("//span[contains(@class, 'chart-element__information__song')]") %>% 
-    rvest::html_text()
+    rvest::html_nodes('h3.c-title.a-no-trucate.a-font-primary-bold-s.u-letter-spacing-0021') %>% 
+    rvest::html_text() |> 
+    trimws()
+  
+  artist <- chart_page %>% 
+    rvest::html_nodes('span.c-label.a-no-trucate.a-font-primary-s') %>% 
+    rvest::html_text() |> 
+    trimws()
+
 
   # create dataframe, remove nas and return result
   chart_df <- data.frame(rank, artist, title)
@@ -268,7 +284,7 @@ A fourth function `wiki_randomfact()` executes one of the above three functions 
 
 I packaged this into a package called `wikifacts` which can be installed from github.  Here's some examples of the functions at work:
 
-``` {r wikifacts}
+``` {r, eval = FALSE}
 
 library(devtools)
 devtools::install_github("keithmcnulty/wikifacts")
@@ -281,6 +297,14 @@ wiki_onthisday()
 
 ```
 
+``` {r wikifacts, echo = FALSE}
+library(wikifacts)
+
+wiki_didyouknow()
+
+wiki_onthisday()
+
+```
 
 ## Appendix:  Reproducibility log
 

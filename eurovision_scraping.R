@@ -46,24 +46,18 @@ get_eurovision <- function(year) {
     stop("Contest was held in 1956 but no points were awarded!")
   } else if (year %in% c(1957:1995)) {
     results_charts[[1]] %>% 
-      dplyr::arrange(Place) %>% 
-      dplyr::select(-Draw)
+      dplyr::arrange(`Place[8]`) 
   } else if (year == 1996) {
     results_charts[[2]] %>% 
-      dplyr::arrange(Place) %>% 
-      dplyr::select(-Draw)
+      dplyr::arrange(`Place[8]`) 
   } else if (year %in% 1997:2003) {
     results_charts[[1]] %>% 
-      dplyr::arrange(Place) %>% 
-      dplyr::select(-Draw)
+      dplyr::arrange(`Place[8]`) 
   } else if (year %in% 2004:2007) {
     results_charts[[2]] %>% 
-      dplyr::arrange(Place) %>% 
-      dplyr::select(-Draw)
-  } else {
-    results_charts[[3]] %>% 
-      dplyr::arrange(Place) %>% 
-      dplyr::select(-Draw)
+      dplyr::arrange(`Place[8]`) 
+  } else if (year == 2020) {
+    stop("The Eurovision Song Contest was cancelled in 2020 due to the COVID-19 pandemic.")
   }
   
   
