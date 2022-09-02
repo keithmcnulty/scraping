@@ -8,12 +8,6 @@ Created by Keith McNulty on 2nd September 2022
     -   <a href="#xml-code" id="toc-xml-code"><code>XML</code> code</a>
     -   <a href="#using-google-chrome-developer"
         id="toc-using-google-chrome-developer">Using Google Chrome Developer</a>
-    -   <a href="#embedded-structure-of-web-code"
-        id="toc-embedded-structure-of-web-code">Embedded structure of web
-        code</a>
-    -   <a href="#the-rvest-and-xml2-packages"
-        id="toc-the-rvest-and-xml2-packages">The <code>rvest</code> and
-        <code>xml2</code> packages</a>
 -   <a href="#basic-harvesting-the-billboard-hot-100-page"
     id="toc-basic-harvesting-the-billboard-hot-100-page">Basic harvesting:
     The Billboard Hot 100 page</a>
@@ -105,49 +99,39 @@ complex, but don’t worry. Here’s a photo of Google Chrome Developer open
 on the [Billboard Hot 100
 page](https://www.billboard.com/charts/hot-100):
 
+\`
 <center>
 <img src="chrome-dev-screenshot.png" alt="Google Chrome Developer">
 </center>
 
-## Embedded structure of web code
 
-If you play around with the code in the Developer you will see that it
-has an embedded structure.
+    ## Embedded structure of web code
 
--   At the highest level there is a `<html>` tag.  
--   At the second level there are `<head>` and `<body>` tags.
--   Inside the `<body>` of the page, different elements are often
-    separated by `<div>` tags.
--   Many different types of tags continue to be embedded down to many
-    nested levels
+    If you play around with the code in the Developer you will see that it has an embedded structure.  
 
-This is important because it means we can mine elements of a web page
-and treat them like lists in R. We often call a specific element of the
-page a *node*. So if we want to mine a specific node, we can capture its
-sub-nodes in a list. By doing so, this gives us the opportunity to apply
-the tidyverse when mining web pages. The process of mining data from the
-web is called *scraping* or *harvesting*.
+    * At the highest level there is a `<html>` tag.  
+    * At the second level there are `<head>` and `<body>` tags.
+    * Inside the `<body>` of the page, different elements are often separated by `<div>` tags.
+    * Many different types of tags continue to be embedded down to many nested levels
 
-## The `rvest` and `xml2` packages
+    This is important because it means we can mine elements of a web page and treat them like lists in R.  We often call a specific element of the page a *node*.  So if we want to mine a specific node, we can capture its sub-nodes in a list.  By doing so, this gives us the opportunity to apply the tidyverse when mining web pages.  The process of mining data from the web is called *scraping* or *harvesting*.
 
-The `rvest` and `xml2` packages were designed to make it easier for
-people working in R to harvest web data. Since `xml2` is a required
-package for `rvest` and the idea is that both packages work together,
-you only need to install `rvest`. First, let’s ensure the packages we
-need are installed and loaded:
+    ## The `rvest` and `xml2` packages
 
-``` r
-if (!("rvest" %in% installed.packages())) {
-  install.packages("rvest")
-}
+    The `rvest` and `xml2` packages were designed to make it easier for people working in R to harvest web data.  Since `xml2` is a required package for `rvest` and the idea is that both packages work together, you only need to install `rvest`.  First, let's ensure the packages we need are installed and loaded:
 
-if (!("dplyr" %in% installed.packages())) {
-  install.packages("dplyr")
-}
 
-library(rvest)
-library(dplyr)
-```
+    ```r
+    if (!("rvest" %in% installed.packages())) {
+      install.packages("rvest")
+    }
+
+    if (!("dplyr" %in% installed.packages())) {
+      install.packages("dplyr")
+    }
+
+    library(rvest)
+    library(dplyr)
 
     ## 
     ## Attaching package: 'dplyr'
@@ -210,8 +194,8 @@ select a node using `html_node()` and then see its *child nodes* using
 `html_children()`.
 
 ``` r
-body_nodes <- hot100 %>% 
-  html_node("body") %>% 
+body_nodes <- hot100 |> 
+  html_node("body") |> 
   html_children()
 
 body_nodes
@@ -230,7 +214,7 @@ If we want, we can go one level deeper, to see the nodes inside the
 nodes. In this way, we can just continue to pipe deeper into the code:
 
 ``` r
-body_nodes %>% 
+body_nodes |> 
   html_children()
 ```
 
@@ -291,8 +275,8 @@ positions, which we expect to have length 100.
 
 ``` r
 # get rank vector
-rank <- hot100 %>% 
-  rvest::html_nodes('ul.o-chart-results-list-row') %>% 
+rank <- hot100 |> 
+  rvest::html_nodes('ul.o-chart-results-list-row') |> 
   xml2::xml_attr('data-detail-target')
 
 # check it has length 100
@@ -310,8 +294,8 @@ the `trimws()` function to remove any surrounding whitespace.
 
 ``` r
 # get title vector
-title <- hot100 %>% 
-  rvest::html_nodes('h3.c-title.a-no-trucate.a-font-primary-bold-s.u-letter-spacing-0021') %>% 
+title <- hot100 |> 
+  rvest::html_nodes('h3.c-title.a-no-trucate.a-font-primary-bold-s.u-letter-spacing-0021') |> 
   rvest::html_text() |> 
   trimws()
 
@@ -325,8 +309,8 @@ Similarly we can get the vector of artists:
 
 ``` r
 # get artist vector
-artist <- hot100 %>% 
-  rvest::html_nodes('span.c-label.a-no-trucate.a-font-primary-s') %>% 
+artist <- hot100 |> 
+  rvest::html_nodes('span.c-label.a-no-trucate.a-font-primary-s') |> 
   rvest::html_text() |> 
   trimws()
 
@@ -343,7 +327,7 @@ neat dataframe.
 chart_df <- data.frame(rank, artist, title)
 
 knitr::kable(
-  chart_df  %>% head(10)
+  chart_df  |> head(10)
 )
 ```
 
@@ -400,24 +384,24 @@ get_chart <- function(date = Sys.Date(), positions = 1:10, type = "hot-100") {
 
   
   # scrape data
-  rank <- chart_page %>% 
-    rvest::html_nodes('ul.o-chart-results-list-row') %>% 
+  rank <- chart_page |> 
+    rvest::html_nodes('ul.o-chart-results-list-row') |> 
     xml2::xml_attr('data-detail-target')
   
-  title <- chart_page %>% 
-    rvest::html_nodes('h3.c-title.a-no-trucate.a-font-primary-bold-s.u-letter-spacing-0021') %>% 
+  title <- chart_page |> 
+    rvest::html_nodes('h3.c-title.a-no-trucate.a-font-primary-bold-s.u-letter-spacing-0021') |> 
     rvest::html_text() |> 
     trimws()
   
-  artist <- chart_page %>% 
-    rvest::html_nodes('span.c-label.a-no-trucate.a-font-primary-s') %>% 
+  artist <- chart_page |> 
+    rvest::html_nodes('span.c-label.a-no-trucate.a-font-primary-s') |> 
     rvest::html_text() |> 
     trimws()
 
 
   # create dataframe, remove nas and return result
   chart_df <- data.frame(rank, artist, title)
-  chart_df <- chart_df %>% 
+  chart_df <- chart_df |> 
     dplyr::filter(!is.na(rank), rank %in% positions)
 
 chart_df
@@ -517,9 +501,9 @@ wiki_didyouknow()
 wiki_onthisday()
 ```
 
-    ## [1] "Did you know that with Classics in 2014, the musical duo She & Him charted their fourth consecutive number-one album on the Billboard Folk Albums? (Courtesy of Wikipedia)"
+    ## [1] "Did you know that Miriam Soljak, after fighting to recover her New Zealand nationality for nearly three decades, was told that the government considered she had never lost it? (Courtesy of Wikipedia)"
 
-    ## [1] "Did you know that on December 13 in 1769 – Dartmouth College in what is now Hanover, New Hampshire, U.S., was established by a royal charter and became the last university founded in the Thirteen Colonies before the American Revolution. (Courtesy of Wikipedia)"
+    ## [1] "Did you know that on April 13 in 1204 – Troops of the Fourth Crusade entered Constantinople and began a sack of the city, temporarily dissolving the Byzantine Empire. (Courtesy of Wikipedia)"
 
 ## Appendix: Reproducibility log
 
@@ -529,7 +513,7 @@ git2r::repository()
 
     ## Local:    master /home/rstudio/rstudio_projects/scraping
     ## Remote:   master @ origin (https://github.com/keithmcnulty/scraping.git)
-    ## Head:     [0f12fca] 2020-05-26: Add renv
+    ## Head:     [4ea773d] 2022-09-02: Rename images
 
 ``` r
 sessionInfo()

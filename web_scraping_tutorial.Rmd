@@ -60,7 +60,7 @@ To mine web data, it's important that you can see the underlying code and unders
 
 When you are viewing a web page in Chrome, simply used `Ctrl+Shift+C` in Windows or `Cmd+Option+C` on a Mac to open up the Elements console where you can see all the code underlying the page.  This can look really complex, but don't worry.  Here's a photo of Google Chrome Developer open on the [Billboard Hot 100 page](https://www.billboard.com/charts/hot-100):
 
-<center><img src="chrome-dev-screenshot.png" alt="Google Chrome Developer"></center>
+`<center><img src="chrome-dev-screenshot.png" alt="Google Chrome Developer"></center>```
 
 ## Embedded structure of web code
 
@@ -115,8 +115,8 @@ str(hot100)
 The function has captured the entire content of the page in the form of a special list-type document with two nodes `<head>` and `<body>`.  Almost always we are interested in the body of a web page.  You can select a node using `html_node()` and then see its *child nodes* using `html_children()`.  
 
 ``` {r next}
-body_nodes <- hot100 %>% 
-  html_node("body") %>% 
+body_nodes <- hot100 |> 
+  html_node("body") |> 
   html_children()
 
 body_nodes
@@ -126,7 +126,7 @@ body_nodes
 If we want, we can go one level deeper, to see the nodes inside the nodes.  In this way, we can just continue to pipe deeper into the code:
 
 ``` {r main}
-body_nodes %>% 
+body_nodes |> 
   html_children()
   
 ```
@@ -145,8 +145,8 @@ Therefore, we can use the following code to pull a vector of chart positions, wh
 
 ```{r}
 # get rank vector
-rank <- hot100 %>% 
-  rvest::html_nodes('ul.o-chart-results-list-row') %>% 
+rank <- hot100 |> 
+  rvest::html_nodes('ul.o-chart-results-list-row') |> 
   xml2::xml_attr('data-detail-target')
 
 # check it has length 100
@@ -157,8 +157,8 @@ Perfect!  Now for the the vector of song titles, we can find these inside `h3` n
 
 ```{r}
 # get title vector
-title <- hot100 %>% 
-  rvest::html_nodes('h3.c-title.a-no-trucate.a-font-primary-bold-s.u-letter-spacing-0021') %>% 
+title <- hot100 |> 
+  rvest::html_nodes('h3.c-title.a-no-trucate.a-font-primary-bold-s.u-letter-spacing-0021') |> 
   rvest::html_text() |> 
   trimws()
 
@@ -170,8 +170,8 @@ Similarly we can get the vector of artists:
 
 ```{r}
 # get artist vector
-artist <- hot100 %>% 
-  rvest::html_nodes('span.c-label.a-no-trucate.a-font-primary-s') %>% 
+artist <- hot100 |> 
+  rvest::html_nodes('span.c-label.a-no-trucate.a-font-primary-s') |> 
   rvest::html_text() |> 
   trimws()
 
@@ -186,7 +186,7 @@ That's the Billboard Hot 100!  Nice!  Now we can combine them all into a neat da
 chart_df <- data.frame(rank, artist, title)
 
 knitr::kable(
-  chart_df  %>% head(10)
+  chart_df  |> head(10)
 )
 ```
 
@@ -220,24 +220,24 @@ get_chart <- function(date = Sys.Date(), positions = 1:10, type = "hot-100") {
 
   
   # scrape data
-  rank <- chart_page %>% 
-    rvest::html_nodes('ul.o-chart-results-list-row') %>% 
+  rank <- chart_page |> 
+    rvest::html_nodes('ul.o-chart-results-list-row') |> 
     xml2::xml_attr('data-detail-target')
   
-  title <- chart_page %>% 
-    rvest::html_nodes('h3.c-title.a-no-trucate.a-font-primary-bold-s.u-letter-spacing-0021') %>% 
+  title <- chart_page |> 
+    rvest::html_nodes('h3.c-title.a-no-trucate.a-font-primary-bold-s.u-letter-spacing-0021') |> 
     rvest::html_text() |> 
     trimws()
   
-  artist <- chart_page %>% 
-    rvest::html_nodes('span.c-label.a-no-trucate.a-font-primary-s') %>% 
+  artist <- chart_page |> 
+    rvest::html_nodes('span.c-label.a-no-trucate.a-font-primary-s') |> 
     rvest::html_text() |> 
     trimws()
 
 
   # create dataframe, remove nas and return result
   chart_df <- data.frame(rank, artist, title)
-  chart_df <- chart_df %>% 
+  chart_df <- chart_df |> 
     dplyr::filter(!is.na(rank), rank %in% positions)
 
 chart_df
