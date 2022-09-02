@@ -1,36 +1,52 @@
 Scraping and Harvesting Web Data in R
 ================
-Created by Keith McNulty on 26th July 2019
+Created by Keith McNulty on 2nd September 2022
 
-  - [Web Page Structure and Format](#web-page-structure-and-format)
-      - [`HTML` code](#html-code)
-      - [`XML` code](#xml-code)
-      - [Using Google Chrome Developer](#using-google-chrome-developer)
-      - [Embedded structure of web
-        code](#embedded-structure-of-web-code)
-      - [The `rvest` and `xml2` packages](#the-rvest-and-xml2-packages)
-  - [Basic harvesting: The Billboard Hot 100
-    page](#basic-harvesting-the-billboard-hot-100-page)
-      - [Getting started](#getting-started)
-      - [Forensically targeting information of
-        interest](#forensically-targeting-information-of-interest)
-  - [Making scraping easy by automating
-    tasks](#making-scraping-easy-by-automating-tasks)
-      - [Example: Writing a function to grab any Billboard chart from
-        history](#example-writing-a-function-to-grab-any-billboard-chart-from-history)
-      - [Example: Writing a function to grab any set of Eurovision Song
-        Contest
-        results](#example-writing-a-function-to-grab-any-set-of-eurovision-song-contest-results)
-      - [Example: Packaging `wikifacts`](#example-packaging-wikifacts)
+-   <a href="#web-page-structure-and-format"
+    id="toc-web-page-structure-and-format">Web Page Structure and Format</a>
+    -   <a href="#html-code" id="toc-html-code"><code>HTML</code> code</a>
+    -   <a href="#xml-code" id="toc-xml-code"><code>XML</code> code</a>
+    -   <a href="#using-google-chrome-developer"
+        id="toc-using-google-chrome-developer">Using Google Chrome Developer</a>
+    -   <a href="#embedded-structure-of-web-code"
+        id="toc-embedded-structure-of-web-code">Embedded structure of web
+        code</a>
+    -   <a href="#the-rvest-and-xml2-packages"
+        id="toc-the-rvest-and-xml2-packages">The <code>rvest</code> and
+        <code>xml2</code> packages</a>
+-   <a href="#basic-harvesting-the-billboard-hot-100-page"
+    id="toc-basic-harvesting-the-billboard-hot-100-page">Basic harvesting:
+    The Billboard Hot 100 page</a>
+    -   <a href="#getting-started" id="toc-getting-started">Getting started</a>
+    -   <a href="#forensically-targeting-information-of-interest"
+        id="toc-forensically-targeting-information-of-interest">Forensically
+        targeting information of interest</a>
+-   <a href="#making-scraping-easy-by-automating-tasks"
+    id="toc-making-scraping-easy-by-automating-tasks">Making scraping easy
+    by automating tasks</a>
+    -   <a
+        href="#example-writing-a-function-to-grab-any-billboard-chart-from-history"
+        id="toc-example-writing-a-function-to-grab-any-billboard-chart-from-history">Example:
+        Writing a function to grab any Billboard chart from history</a>
+    -   <a
+        href="#example-writing-a-function-to-grab-any-set-of-eurovision-song-contest-results"
+        id="toc-example-writing-a-function-to-grab-any-set-of-eurovision-song-contest-results">Example:
+        Writing a function to grab any set of Eurovision Song Contest
+        results</a>
+    -   <a href="#example-packaging-wikifacts"
+        id="toc-example-packaging-wikifacts">Example: Packaging
+        <code>wikifacts</code></a>
+    -   <a href="#appendix-reproducibility-log"
+        id="toc-appendix-reproducibility-log">Appendix: Reproducibility log</a>
 
 # Web Page Structure and Format
 
 Any webpage you visit has a particular, expected general structure. It
 usually consists of two types of code.
 
-  - `HTML` code, which focuses on the appearance and format of a web
+-   `HTML` code, which focuses on the appearance and format of a web
     page.
-  - `XML` code, which doesn’t *look* a lot different from `HTML` but
+-   `XML` code, which doesn’t *look* a lot different from `HTML` but
     focuses more on managing data in a web page.
 
 ## `HTML` code
@@ -44,10 +60,10 @@ people to develop web pages. Here is an example of a simple `HTML` page:
     <title>Page Title</title>
     </head>
     <body>
-    
+
     <h1>This is a Heading</h1>
     <p>This is a paragraph.</p>
-    
+
     </body>
     </html>
 
@@ -90,9 +106,7 @@ on the [Billboard Hot 100
 page](https://www.billboard.com/charts/hot-100):
 
 <center>
-
 <img src="chrome-dev-screenshot.png" alt="Google Chrome Developer">
-
 </center>
 
 ## Embedded structure of web code
@@ -100,11 +114,11 @@ page](https://www.billboard.com/charts/hot-100):
 If you play around with the code in the Developer you will see that it
 has an embedded structure.
 
-  - At the highest level there is a `<html>` tag.  
-  - At the second level there are `<head>` and `<body>` tags.
-  - Inside the `<body>` of the page, different elements are often
+-   At the highest level there is a `<html>` tag.  
+-   At the second level there are `<head>` and `<body>` tags.
+-   Inside the `<body>` of the page, different elements are often
     separated by `<div>` tags.
-  - Many different types of tags continue to be embedded down to many
+-   Many different types of tags continue to be embedded down to many
     nested levels
 
 This is important because it means we can mine elements of a web page
@@ -132,11 +146,6 @@ if (!("dplyr" %in% installed.packages())) {
 }
 
 library(rvest)
-```
-
-    ## Loading required package: xml2
-
-``` r
 library(dplyr)
 ```
 
@@ -181,9 +190,9 @@ hot100
 ```
 
     ## {html_document}
-    ## <html class="" lang="">
+    ## <html lang="en-US">
     ## [1] <head>\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
-    ## [2] <body class="chart-page chart-page-" data-trackcategory="Charts-TheHot100 ...
+    ## [2] <body class="pmc-chart-template-default single single-pmc-chart postid-14 ...
 
 ``` r
 str(hot100)
@@ -208,28 +217,14 @@ body_nodes <- hot100 %>%
 body_nodes
 ```
 
-    ## {xml_nodeset (37)}
-    ##  [1] <div class="header-wrapper ">\n<header id="site-header" class="site-head ...
-    ##  [2] <div class="site-header__placeholder"></div>
-    ##  [3] <script>\n        var PGM = window.PGM || {};\n        PGM.config = PGM. ...
-    ##  [4] <div class="chart-piano-overlay__attachment-point"></div>
-    ##  [5] <main id="main" class="page-content"><div id="charts" data-page-title="T ...
-    ##  [6] <div class="ad_desktop dfp-ad" data-position="promo" data-sizes="[[2,2]] ...
-    ##  [7] <footer id="site-footer" class="site-footer"><div class="container foote ...
-    ##  [8] <div class="biz-modal">\n    <div class="biz-modal__content">\n        < ...
-    ##  [9] <script>\n    window.CLARITY = window.CLARITY || [];\n</script>
-    ## [10] <div class="ad_clarity" data-out-of-page="true" style="display: none;">< ...
-    ## [11] <script>\n    var darkMatterCMD = function() {\n        this.darkMatterC ...
-    ## [12] <script>\n    CLARITY.push({\n        use: ['ads'],\n        run: functi ...
-    ## [13] <script src="https://assets.billboard.com/assets/1580164465/js/external_ ...
-    ## [14] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
-    ## [15] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
-    ## [16] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
-    ## [17] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
-    ## [18] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
-    ## [19] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
-    ## [20] <script src="https://assets.billboard.com/assets/1580164465/js/vendors_/ ...
-    ## ...
+    ## {xml_nodeset (7)}
+    ## [1] <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MD ...
+    ## [2] <div class="floating-preroll-ad floating-preroll-ad-v2">\n\t<div class="f ...
+    ## [3] <script type="text/javascript">\n\twindow.pmc_jwplayer.load("xFzS1DCh");\ ...
+    ## [4] <noscript>\n\t\t<img src="https://sb.scorecardresearch.com/p?c1=2&amp;c2= ...
+    ## [5] <script type="text/plain" class="optanon-category-C0002">\n\t\tvar _qeven ...
+    ## [6] <div id="skin-ad-section" data-content-container="main-wrapper">\n\n\t<di ...
+    ## [7] <div id="main-wrapper" class="u-overflow-hidden"> \n\t<div id="modal-back ...
 
 If we want, we can go one level deeper, to see the nodes inside the
 nodes. In this way, we can just continue to pipe deeper into the code:
@@ -239,16 +234,28 @@ body_nodes %>%
   html_children()
 ```
 
-    ## {xml_nodeset (9)}
-    ## [1] <header id="site-header" class="site-header " role="banner"><div class="s ...
-    ## [2] <div class="header-wrapper__secondary-header">\n<nav class="site-header-l ...
-    ## [3] <div id="charts" data-page-title="THE HOT 100" data-chart-code="HSI" data ...
-    ## [4] <div class="ad-holder ad-holder--footer">\n        \n\n\n            \n   ...
-    ## [5] <div class="container footer-content">\n\t\t<div class="cover-image">\n\t ...
-    ## [6] <div class="container">\n\t\t<p class="copyright__paragraph">© 2020 Billb ...
-    ## [7] <div class="container">\n\t\t<p class="station-identification">\n\t\t\tBi ...
-    ## [8] <div class="container">\n\t\t\t\n\n\n            \n    <div class="ad_des ...
-    ## [9] <div class="biz-modal__content">\n        <button class="biz-modal__close ...
+    ## {xml_nodeset (75)}
+    ##  [1] <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MD3ZLS" hei ...
+    ##  [2] <div class="floating-preroll-ad-container">\n\t\t\t\t\t<div class="float ...
+    ##  [3] <img src="https://sb.scorecardresearch.com/p?c1=2&amp;c2=6035310&amp;c3= ...
+    ##  [4] <div id="skin-ad-left-rail-container"></div>
+    ##  [5] <div id="skin-ad-right-rail-container"></div>
+    ##  [6] <div id="skin-ad-inject-container">\n\t\t\t<div class="admz" id="adm-res ...
+    ##  [7] <div id="modal-background" class="modal-background"></div>
+    ##  [8] <a href="#pagetop" class="a-screen-reader-shortcut">\n\t\t\tSkip to main ...
+    ##  [9] <div class="ad_block above-header-ad lrv-u-background-color-black">\n\t\ ...
+    ## [10] <header class="header // js-Header lrv-u-margin-lr-auto"><div class="js- ...
+    ## [11] <div class="sticky-leaderboard-ad"></div>
+    ## [12] <main><a name="pagetop"></a>\n\t\t<div id="eventListHolder" class="nodis ...
+    ## [13] <div class="admz" id="adm-footer">\n\t\t\t\t\t<div class="adma boomerang ...
+    ## [14] <footer class="footer // site-footer"><div class="lrv-a-wrapper lrv-u-pa ...
+    ## [15] <div class="pmc-footer // lrv-u-background-color-white">\n\t<div class=" ...
+    ## [16] <div role="dialog" aria-modal="true" class="mega-menu // js-MegaMenu a-m ...
+    ## [17] <div id="pmc-ad-bait" class="pub_300x250 pub_300x250m pub_728x90 text-ad ...
+    ## [18] <script>\n\t\t\tif ( 'undefined' !== typeof jQuery ) {\n\t\t\t\tvar $pmc ...
+    ## [19] <script type="text/plain" class="optanon-category-C0004" async="async" s ...
+    ## [20] <script type="text/liquid" id="ac_article">\n\t<div class="ac_title ac_a ...
+    ## ...
 
 ## Forensically targeting information of interest
 
@@ -257,47 +264,79 @@ might find it hard to work out where exactly this chart data is. We can
 use Chrome Developer to tell us where we can find the data in the code,
 and then we can use `rvest` to harvest out the data.
 
-If you run your mouse over the code in the Developer you will see that
-the elements of the page that the code refers to are highlighted in the
-browser. You can click to expand embedded nodes to get to more specific
-parts of the page. You can watch the video I added to this repo to see
-how I progressively drill down the code to find the precise nodes that
-contain the details of each chart entry (note this video uses a previous
-version of the site but you’ll get the idea).
+If you run your mouse over the code in the Developer Console, you will
+see that the elements of the page that the code refers to are
+highlighted in the browser. You can click to expand embedded nodes to
+get to more specific parts of the page. As elements are highlighted, you
+will see that their full html node identifiers appear, which are strings
+starting with the html tag and then the various class tags all separated
+by periods. These help you zoom in on the specific elements of a web
+page which you hope to harvest data from. If the code is very complex,
+another option is to right click the element you are interested in in
+the browser and then choose ‘Inspect’, which will take you straight to
+the elements code in the Developer Console. Here is another image
+showing how to find the full html identifier:
 
-What we see is that each chart entry appears to be in `<span>` tag with
-the class names `chart-element__rank__number`,
-`chart-element__information__artist` and
-`chart-element__information__song`.
+<center>
+<img src="chrome-dev-screenshot2.png" alt="Finding HTML identifier for an element">
+</center>
 
-<img src="class item screenshot.png" alt="This is the node we are looking for!">
+If we look carefully, we will see that the chart position for each
+element in the Billboard 100 list, is contained in a `ul` tag with the
+class `o-chart-results-list-row`, and is an XML arribute called
+`data-detail-target`.
 
-Now we can use the function `xml_find_all()` to find all `<span>` nodes
-in the body of the document that have a class name containing the class
-names we want. `xml_find_all()` accepts `xpath` syntax. You can learn
-more about `xpath` syntax
-[here](https://www.w3schools.com/xml/xpath_syntax.asp). Once those
-precise nodes are located, we can use the `rvest` function `html_text()`
-to simply extract the info we want:
+Therefore, we can use the following code to pull a vector of chart
+positions, which we expect to have length 100.
 
 ``` r
+# get rank vector
 rank <- hot100 %>% 
-  rvest::html_nodes('body') %>% 
-  xml2::xml_find_all("//span[contains(@class, 'chart-element__rank__number')]") %>% 
-  rvest::html_text()
+  rvest::html_nodes('ul.o-chart-results-list-row') %>% 
+  xml2::xml_attr('data-detail-target')
 
-artist <- hot100 %>% 
-  rvest::html_nodes('body') %>% 
-  xml2::xml_find_all("//span[contains(@class, 'chart-element__information__artist')]") %>% 
-  rvest::html_text()
-
-title <- hot100 %>% 
-  rvest::html_nodes('body') %>% 
-  xml2::xml_find_all("//span[contains(@class, 'chart-element__information__song')]") %>% 
-  rvest::html_text()
+# check it has length 100
+length(rank)
 ```
 
-That’s the Billboard Hot 100\! Nice\! Now we can combine them all into a
+    ## [1] 100
+
+Perfect! Now for the the vector of song titles, we can find these inside
+`h3` nodes whose class starts with
+`c-title.a-no-trucate.a-font-primary-bold-s.u-letter-spacing-0021`. So
+we just need to get whatever text is contained in these tags. Because
+text in web pages can often be surrounded by space and tabs, we can use
+the `trimws()` function to remove any surrounding whitespace.
+
+``` r
+# get title vector
+title <- hot100 %>% 
+  rvest::html_nodes('h3.c-title.a-no-trucate.a-font-primary-bold-s.u-letter-spacing-0021') %>% 
+  rvest::html_text() |> 
+  trimws()
+
+# check it is of length 100
+length(title)
+```
+
+    ## [1] 100
+
+Similarly we can get the vector of artists:
+
+``` r
+# get artist vector
+artist <- hot100 %>% 
+  rvest::html_nodes('span.c-label.a-no-trucate.a-font-primary-s') %>% 
+  rvest::html_text() |> 
+  trimws()
+
+# check it is of length 100
+length(artist)
+```
+
+    ## [1] 100
+
+That’s the Billboard Hot 100! Nice! Now we can combine them all into a
 neat dataframe.
 
 ``` r
@@ -308,18 +347,18 @@ knitr::kable(
 )
 ```
 
-| rank | artist                     | title               |
-| :--- | :------------------------- | :------------------ |
-| 1    | Roddy Ricch                | The Box             |
-| 2    | Future Featuring Drake     | Life Is Good        |
-| 3    | Post Malone                | Circles             |
-| 4    | Maroon 5                   | Memories            |
-| 5    | Tones And I                | Dance Monkey        |
-| 6    | Dua Lipa                   | Don’t Start Now     |
-| 7    | Arizona Zervas             | Roxanne             |
-| 8    | Lewis Capaldi              | Someone You Loved   |
-| 9    | Dan + Shay & Justin Bieber | 10,000 Hours        |
-| 10   | Billie Eilish              | everything i wanted |
+| rank | artist                         | title                                  |
+|:-----|:-------------------------------|:---------------------------------------|
+| 1    | Harry Styles                   | As It Was                              |
+| 2    | Lizzo                          | About Damn Time                        |
+| 3    | Steve Lacy                     | Bad Habit                              |
+| 4    | Kate Bush                      | Running Up That Hill (A Deal With God) |
+| 5    | Beyonce                        | Break My Soul                          |
+| 6    | Nicky Youre & dazy             | Sunroof                                |
+| 7    | Nicki Minaj                    | Super Freaky Girl                      |
+| 8    | Future Featuring Drake & Tems  | Wait For U                             |
+| 9    | Bad Bunny & Chencho Corleone   | Me Porto Bonito                        |
+| 10   | Post Malone Featuring Doja Cat | I Like You (A Happier Song)            |
 
 # Making scraping easy by automating tasks
 
@@ -353,7 +392,7 @@ entries for that chart on that date in those ranks.
 #' @examples get_chart(date = "1972-11-02", positions = c(1:100), type = "billboard-200")
 
 
-get_chart <- function(date = Sys.Date(), positions = c(1:10), type = "hot-100") {
+get_chart <- function(date = Sys.Date(), positions = 1:10, type = "hot-100") {
 
   # get url from input and read html
   input <- paste0("https://www.billboard.com/charts/", type, "/", date) 
@@ -362,19 +401,19 @@ get_chart <- function(date = Sys.Date(), positions = c(1:10), type = "hot-100") 
   
   # scrape data
   rank <- chart_page %>% 
-    rvest::html_nodes('body') %>% 
-    xml2::xml_find_all("//span[contains(@class, 'chart-element__rank__number')]") %>% 
-    rvest::html_text()
-  
-  artist <- chart_page %>% 
-    rvest::html_nodes('body') %>% 
-    xml2::xml_find_all("//span[contains(@class, 'chart-element__information__artist')]") %>% 
-    rvest::html_text()
+    rvest::html_nodes('ul.o-chart-results-list-row') %>% 
+    xml2::xml_attr('data-detail-target')
   
   title <- chart_page %>% 
-    rvest::html_nodes('body') %>% 
-    xml2::xml_find_all("//span[contains(@class, 'chart-element__information__song')]") %>% 
-    rvest::html_text()
+    rvest::html_nodes('h3.c-title.a-no-trucate.a-font-primary-bold-s.u-letter-spacing-0021') %>% 
+    rvest::html_text() |> 
+    trimws()
+  
+  artist <- chart_page %>% 
+    rvest::html_nodes('span.c-label.a-no-trucate.a-font-primary-s') %>% 
+    rvest::html_text() |> 
+    trimws()
+
 
   # create dataframe, remove nas and return result
   chart_df <- data.frame(rank, artist, title)
@@ -396,7 +435,7 @@ knitr::kable(test1)
 ```
 
 | rank | artist                     | title                        |
-| :--- | :------------------------- | :--------------------------- |
+|:-----|:---------------------------|:-----------------------------|
 | 1    | Carpenters                 | Please Mr. Postman           |
 | 2    | Neil Sedaka                | Laughter In The Rain         |
 | 3    | Barry Manilow              | Mandy                        |
@@ -424,25 +463,25 @@ eurovision_1974 <- get_eurovision(1974)
 knitr::kable(eurovision_1974)
 ```
 
-| Country        | Artist                                 | Song                                                               | Language\[9\]  | Place | Points |
-| :------------- | :------------------------------------- | :----------------------------------------------------------------- | :------------- | ----: | -----: |
-| Sweden         | ABBA                                   | “Waterloo”                                                         | English        |     1 |     24 |
-| Italy          | Gigliola Cinquetti                     | “Sì”                                                               | Italian        |     2 |     18 |
-| Netherlands    | Mouth & MacNeal                        | “I See a Star”                                                     | English        |     3 |     15 |
-| United Kingdom | Olivia Newton-John                     | “Long Live Love”                                                   | English        |     4 |     14 |
-| Luxembourg     | Ireen Sheer                            | “Bye Bye I Love You”                                               | Frencha        |     4 |     14 |
-| Monaco         | Romuald                                | “Celui qui reste et celui qui s’en va”                             | French         |     4 |     14 |
-| Israel         | Kaveret                                | “Natati La Khayay” (נתתי לה חיי)                                   | Hebrew         |     7 |     11 |
-| Ireland        | Tina Reynolds                          | “Cross Your Heart”                                                 | English        |     7 |     11 |
-| Spain          | Peret                                  | “Canta y sé feliz”                                                 | Spanish        |     9 |     10 |
-| Belgium        | Jacques Hustin                         | “Fleur de liberté”                                                 | French         |     9 |     10 |
-| Greece         | Marinella                              | “Krasi, thalassa ke t’ agori mou”(Κρασί, θάλασσα και τ’ αγόρι μου) | Greek          |    11 |      7 |
-| Yugoslavia     | Korni Grupa                            | “Generacija ’42” (Генерација ’42)                                  | Serbo-Croatian |    12 |      6 |
-| Finland        | Carita                                 | “Keep Me Warm”                                                     | English        |    13 |      4 |
-| Norway         | Anne-Karine Strøm feat. Bendik Singers | “The First Day of Love”                                            | English        |    14 |      3 |
-| Germany        | Cindy & Bert                           | “Die Sommermelodie”                                                | German         |    14 |      3 |
-| Switzerland    | Piera Martell                          | “Mein Ruf nach dir”                                                | German         |    14 |      3 |
-| Portugal       | Paulo de Carvalho                      | “E depois do adeus”                                                | Portuguese     |    14 |      3 |
+| R/O | Country        | Artist                                   | Song                                                               | Language\[6\]\[7\] | Points | Place\[8\] |
+|----:|:---------------|:-----------------------------------------|:-------------------------------------------------------------------|:-------------------|-------:|-----------:|
+|   8 | Sweden         | ABBA                                     | “Waterloo”                                                         | English            |     24 |          1 |
+|  17 | Italy          | Gigliola Cinquetti                       | “Sì”                                                               | Italian            |     18 |          2 |
+|  12 | Netherlands    | Mouth and MacNeal                        | “I See a Star”                                                     | English            |     15 |          3 |
+|   2 | United Kingdom | Olivia Newton-John                       | “Long Live Love”                                                   | English            |     14 |          4 |
+|   9 | Luxembourg     | Ireen Sheer                              | “Bye Bye I Love You”                                               | French\[b\]        |     14 |          4 |
+|  10 | Monaco         | Romuald                                  | “Celui qui reste et celui qui s’en va”                             | French             |     14 |          4 |
+|   6 | Israel         | Poogy                                    | “Natati La Khayay” (נתתי לה חיי)                                   | Hebrew             |     11 |          7 |
+|  13 | Ireland        | Tina Reynolds                            | “Cross Your Heart”                                                 | English            |     11 |          7 |
+|   3 | Spain          | Peret                                    | “Canta y sé feliz”                                                 | Spanish            |     10 |          9 |
+|  11 | Belgium        | Jacques Hustin                           | “Fleur de liberté”                                                 | French             |     10 |          9 |
+|   5 | Greece         | Marinella                                | “Krasi, thalassa ke t’ agori mou”(Κρασί, θάλασσα και τ’ αγόρι μου) | Greek              |      7 |         11 |
+|   7 | Yugoslavia     | Korni Grupa                              | “Generacija ’42” (Генерација ’42)                                  | Serbo-Croatian     |      6 |         12 |
+|   1 | Finland        | Carita                                   | “Keep Me Warm”                                                     | English            |      4 |         13 |
+|   4 | Norway         | Anne-Karine Strøm and the Bendik Singers | “The First Day of Love”                                            | English            |      3 |         14 |
+|  14 | Germany        | Cindy and Bert                           | “Die Sommermelodie”                                                | German             |      3 |         14 |
+|  15 | Switzerland    | Piera Martell                            | “Mein Ruf nach dir”                                                | German             |      3 |         14 |
+|  16 | Portugal       | Paulo de Carvalho                        | “E depois do adeus”                                                | Portuguese         |      3 |         14 |
 
 ## Example: Packaging `wikifacts`
 
@@ -454,11 +493,11 @@ facts to keep people interested.
 The Wikipedia Main Page has three predictable sections which can be
 reliably scraped. So I used them to create three functions:
 
-  - `wiki_didyouknow()` which takes random facts from the ‘Did you
+-   `wiki_didyouknow()` which takes random facts from the ‘Did you
     know…’ section
-  - `wiki_onthisday()` which takes random facts from the ‘On this day…’
+-   `wiki_onthisday()` which takes random facts from the ‘On this day…’
     section
-  - `wiki_inthenews()` which takes random facts from the ‘In the news…’
+-   `wiki_inthenews()` which takes random facts from the ‘In the news…’
     section
 
 A fourth function `wiki_randomfact()` executes one of the above three
@@ -469,27 +508,61 @@ from github. Here’s some examples of the functions at work:
 
 ``` r
 library(devtools)
-```
-
-    ## Loading required package: usethis
-
-``` r
 devtools::install_github("keithmcnulty/wikifacts")
-```
 
-    ## Skipping install of 'wikifacts' from a github remote, the SHA1 (f7e7f232) has not changed since last install.
-    ##   Use `force = TRUE` to force installation
-
-``` r
 library(wikifacts)
 
 wiki_didyouknow()
-```
 
-    ## Did you know that depictions of urinating boys (example pictured) in Renaissance art could alternately represent boyish innocence or erotic virility? (Courtesy of Wikipedia)
-
-``` r
 wiki_onthisday()
 ```
 
-    ## Did you know that on this day in 1816 – Italian composer Gioachino Rossini's opera buffa The Barber of Seville premiered at the Teatro Argentina in Rome to jeers from the audience. (Courtesy of Wikipedia)
+    ## [1] "Did you know that with Classics in 2014, the musical duo She & Him charted their fourth consecutive number-one album on the Billboard Folk Albums? (Courtesy of Wikipedia)"
+
+    ## [1] "Did you know that on December 13 in 1769 – Dartmouth College in what is now Hanover, New Hampshire, U.S., was established by a royal charter and became the last university founded in the Thirteen Colonies before the American Revolution. (Courtesy of Wikipedia)"
+
+## Appendix: Reproducibility log
+
+``` r
+git2r::repository()
+```
+
+    ## Local:    master /home/rstudio/rstudio_projects/scraping
+    ## Remote:   master @ origin (https://github.com/keithmcnulty/scraping.git)
+    ## Head:     [0f12fca] 2020-05-26: Add renv
+
+``` r
+sessionInfo()
+```
+
+    ## R version 4.2.0 (2022-04-22)
+    ## Platform: x86_64-pc-linux-gnu (64-bit)
+    ## Running under: Ubuntu 18.04.6 LTS
+    ## 
+    ## Matrix products: default
+    ## BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.7.1
+    ## LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.7.1
+    ## 
+    ## locale:
+    ##  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
+    ##  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
+    ##  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
+    ## [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+    ## 
+    ## attached base packages:
+    ## [1] stats     graphics  grDevices utils     datasets  methods   base     
+    ## 
+    ## other attached packages:
+    ## [1] wikifacts_0.4.2 xml2_1.3.2      dplyr_1.0.8     rvest_1.0.2    
+    ## 
+    ## loaded via a namespace (and not attached):
+    ##  [1] rstudioapi_0.13  knitr_1.39       magrittr_2.0.1   tidyselect_1.1.1
+    ##  [5] R6_2.5.1         rlang_1.0.3      fastmap_1.1.0    fansi_0.4.2     
+    ##  [9] highr_0.8        stringr_1.4.0    httr_1.4.3       tools_4.2.0     
+    ## [13] xfun_0.31        utf8_1.2.1       DBI_1.1.0        cli_3.3.0       
+    ## [17] git2r_0.27.1     selectr_0.4-2    htmltools_0.5.2  ellipsis_0.3.2  
+    ## [21] assertthat_0.2.1 yaml_2.2.1       digest_0.6.29    tibble_3.1.1    
+    ## [25] lifecycle_1.0.1  crayon_1.4.1     purrr_0.3.4      vctrs_0.3.8     
+    ## [29] curl_4.3.2       glue_1.6.2       evaluate_0.15    rmarkdown_2.14  
+    ## [33] stringi_1.7.6    compiler_4.2.0   pillar_1.6.0     generics_0.1.3  
+    ## [37] pkgconfig_2.0.3
