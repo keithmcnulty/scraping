@@ -8,6 +8,12 @@ Created by Keith McNulty on 2nd September 2022
     -   <a href="#xml-code" id="toc-xml-code"><code>XML</code> code</a>
     -   <a href="#using-google-chrome-developer"
         id="toc-using-google-chrome-developer">Using Google Chrome Developer</a>
+    -   <a href="#embedded-structure-of-web-code"
+        id="toc-embedded-structure-of-web-code">Embedded structure of web
+        code</a>
+    -   <a href="#the-rvest-and-xml2-packages"
+        id="toc-the-rvest-and-xml2-packages">The <code>rvest</code> and
+        <code>xml2</code> packages</a>
 -   <a href="#basic-harvesting-the-billboard-hot-100-page"
     id="toc-basic-harvesting-the-billboard-hot-100-page">Basic harvesting:
     The Billboard Hot 100 page</a>
@@ -99,50 +105,49 @@ complex, but don’t worry. Here’s a photo of Google Chrome Developer open
 on the [Billboard Hot 100
 page](https://www.billboard.com/charts/hot-100):
 
-\`
 <center>
 <img src="chrome-dev-screenshot.png" alt="Google Chrome Developer">
 </center>
 
+## Embedded structure of web code
 
-    ## Embedded structure of web code
+If you play around with the code in the Developer you will see that it
+has an embedded structure.
 
-    If you play around with the code in the Developer you will see that it has an embedded structure.  
+-   At the highest level there is a `<html>` tag.  
+-   At the second level there are `<head>` and `<body>` tags.
+-   Inside the `<body>` of the page, different elements are often
+    separated by `<div>` tags.
+-   Many different types of tags continue to be embedded down to many
+    nested levels
 
-    * At the highest level there is a `<html>` tag.  
-    * At the second level there are `<head>` and `<body>` tags.
-    * Inside the `<body>` of the page, different elements are often separated by `<div>` tags.
-    * Many different types of tags continue to be embedded down to many nested levels
+This is important because it means we can mine elements of a web page
+and treat them like lists in R. We often call a specific element of the
+page a *node*. So if we want to mine a specific node, we can capture its
+sub-nodes in a list. By doing so, this gives us the opportunity to apply
+the tidyverse when mining web pages. The process of mining data from the
+web is called *scraping* or *harvesting*.
 
-    This is important because it means we can mine elements of a web page and treat them like lists in R.  We often call a specific element of the page a *node*.  So if we want to mine a specific node, we can capture its sub-nodes in a list.  By doing so, this gives us the opportunity to apply the tidyverse when mining web pages.  The process of mining data from the web is called *scraping* or *harvesting*.
+## The `rvest` and `xml2` packages
 
-    ## The `rvest` and `xml2` packages
+The `rvest` and `xml2` packages were designed to make it easier for
+people working in R to harvest web data. Since `xml2` is a required
+package for `rvest` and the idea is that both packages work together,
+you only need to install `rvest`. First, let’s ensure the packages we
+need are installed and loaded:
 
-    The `rvest` and `xml2` packages were designed to make it easier for people working in R to harvest web data.  Since `xml2` is a required package for `rvest` and the idea is that both packages work together, you only need to install `rvest`.  First, let's ensure the packages we need are installed and loaded:
+``` r
+if (!("rvest" %in% installed.packages())) {
+  install.packages("rvest")
+}
 
+if (!("dplyr" %in% installed.packages())) {
+  install.packages("dplyr")
+}
 
-    ```r
-    if (!("rvest" %in% installed.packages())) {
-      install.packages("rvest")
-    }
-
-    if (!("dplyr" %in% installed.packages())) {
-      install.packages("dplyr")
-    }
-
-    library(rvest)
-    library(dplyr)
-
-    ## 
-    ## Attaching package: 'dplyr'
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
+library(rvest)
+library(dplyr)
+```
 
 `rvest` and `xml2` contain functions that allow us to read the code of a
 web page, break it into a neat structure, and work with the pipe command
@@ -501,9 +506,9 @@ wiki_didyouknow()
 wiki_onthisday()
 ```
 
-    ## [1] "Did you know that Miriam Soljak, after fighting to recover her New Zealand nationality for nearly three decades, was told that the government considered she had never lost it? (Courtesy of Wikipedia)"
+    ## [1] "Did you know that Pulitzer Prize-winning sportswriter Arthur Daley wrote more than 10,000 columns for The New York Times? (Courtesy of Wikipedia)"
 
-    ## [1] "Did you know that on April 13 in 1204 – Troops of the Fourth Crusade entered Constantinople and began a sack of the city, temporarily dissolving the Byzantine Empire. (Courtesy of Wikipedia)"
+    ## [1] "Did you know that on February 2 in 1438 – Nine leaders of the Transylvanian peasant revolt were executed at Torda. (Courtesy of Wikipedia)"
 
 ## Appendix: Reproducibility log
 
@@ -513,7 +518,7 @@ git2r::repository()
 
     ## Local:    master /home/rstudio/rstudio_projects/scraping
     ## Remote:   master @ origin (https://github.com/keithmcnulty/scraping.git)
-    ## Head:     [4ea773d] 2022-09-02: Rename images
+    ## Head:     [ea28818] 2022-09-02: Update
 
 ``` r
 sessionInfo()

@@ -8,7 +8,7 @@ output:
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
 # Web Page Structure and Format
@@ -52,6 +52,7 @@ As you can see, the content is wrapped in tags like `<head></head>`, `<body></bo
   <body>Awesome work, dude!</body>
 </note>
 ```
+
 Tags like `<to></to>` and `<from></from>` are completely made up by me.  The fact that tags are not pre-defined makes `XML` a little harder to mine and analyze.  But it's hard to get at some of the data on the web without using `XML`.
 
 ## Using Google Chrome Developer
@@ -60,7 +61,7 @@ To mine web data, it's important that you can see the underlying code and unders
 
 When you are viewing a web page in Chrome, simply used `Ctrl+Shift+C` in Windows or `Cmd+Option+C` on a Mac to open up the Elements console where you can see all the code underlying the page.  This can look really complex, but don't worry.  Here's a photo of Google Chrome Developer open on the [Billboard Hot 100 page](https://www.billboard.com/charts/hot-100):
 
-`<center><img src="chrome-dev-screenshot.png" alt="Google Chrome Developer"></center>```
+<center><img src="chrome-dev-screenshot.png" alt="Google Chrome Developer"></center>
 
 ## Embedded structure of web code
 
