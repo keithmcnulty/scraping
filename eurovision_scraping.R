@@ -39,6 +39,8 @@ get_eurovision <- function(year) {
   
   results_charts <- charts[chartvec]
   
+  place_col <- colnames(results_charts[[1]])[grepl("Place", colnames(results_charts[[1]]))]
+  
   # account for move to semifinals and qualifying rounds
   if (year < 1956) {
     stop("Contest was not held before 1956!")
@@ -46,16 +48,16 @@ get_eurovision <- function(year) {
     stop("Contest was held in 1956 but no points were awarded!")
   } else if (year %in% c(1957:1995)) {
     results_charts[[1]] %>% 
-      dplyr::arrange(`Place[8]`) 
+      dplyr::arrange(!!place_col) 
   } else if (year == 1996) {
     results_charts[[2]] %>% 
-      dplyr::arrange(`Place[8]`) 
+      dplyr::arrange(!!place_col) 
   } else if (year %in% 1997:2003) {
     results_charts[[1]] %>% 
-      dplyr::arrange(`Place[8]`) 
+      dplyr::arrange(!!place_col) 
   } else if (year %in% 2004:2007) {
     results_charts[[2]] %>% 
-      dplyr::arrange(`Place[8]`) 
+      dplyr::arrange(!!place_col) 
   } else if (year == 2020) {
     stop("The Eurovision Song Contest was cancelled in 2020 due to the COVID-19 pandemic.")
   }
